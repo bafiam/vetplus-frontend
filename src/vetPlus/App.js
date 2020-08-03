@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { hot } from 'react-hot-loader';
 
 import './App.css';
 
@@ -17,7 +18,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-        Will the state be preserved? The value is {this.state.number}
+         value is {this.state.number}
         </p>
         <button onClick={()=>this.setState({number : this.state.number + 1})}>+</button>
       </div>
@@ -25,4 +26,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default hot(module)(App);
