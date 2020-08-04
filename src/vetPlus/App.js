@@ -1,26 +1,15 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-
 import './App.css';
+import PageLayout from './components/layout'
 
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      number : 0
-    }
-  }
   
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-         value is {this.state.number}
-        </p>
-        <button onClick={()=>this.setState({number : this.state.number + 1})}>+</button>
+        <PageLayout></PageLayout>
+       
       </div>
     );
   }
