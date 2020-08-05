@@ -31,10 +31,10 @@ export default class PageLayout extends Component {
             <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
               <Menu.Item key="1" icon={<UserOutlined />}>
-                <Link to="/home">Dashbaord</Link>
+                <Link to="/home/dash">Dashbaord</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<ProfileOutlined />}>
-                <Link to="/profile">Profile</Link>
+                <Link to="/home/profile">Profile</Link>
               </Menu.Item>
 
               <Menu.Item key="3" icon={<DesktopOutlined />}>
@@ -60,8 +60,8 @@ export default class PageLayout extends Component {
                 style={{ padding: 24, minHeight: 360 }}
               >
                 <Switch>
-                  <Route path="/home" component={Dashbaord} />
-                  <Route path="/profile" component={Profile} />
+                  <Route path="/home/dash" component={Dashbaord} />
+                  <Route path="/home/profile" component={Profile} />
                 </Switch>
               </div>
             </Content>
