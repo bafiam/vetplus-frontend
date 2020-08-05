@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import { Layout, Menu, Avatar } from "antd";
 import "../css/layout.css";
-import { DesktopOutlined, UserOutlined } from "@ant-design/icons";
-
+import {
+  DesktopOutlined,
+  UserOutlined,
+  ProfileOutlined,
+} from "@ant-design/icons";
+import { Route, Link, Switch } from "react-router-dom";
+import Dashbaord from "./dashbaord";
+import Profile from "./profile";
 const { Header, Content, Footer, Sider } = Layout;
 export default class PageLayout extends Component {
   state = {
@@ -25,9 +31,13 @@ export default class PageLayout extends Component {
             <div className="logo" />
             <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
               <Menu.Item key="1" icon={<UserOutlined />}>
-                Dashbaord
+                <Link to="/home">Dashbaord</Link>
               </Menu.Item>
-              <Menu.Item key="2" icon={<DesktopOutlined />}>
+              <Menu.Item key="2" icon={<ProfileOutlined />}>
+                <Link to="/profile">Profile</Link>
+              </Menu.Item>
+
+              <Menu.Item key="3" icon={<DesktopOutlined />}>
                 My Appointments
               </Menu.Item>
             </Menu>
@@ -49,7 +59,10 @@ export default class PageLayout extends Component {
                 className="site-layout-background"
                 style={{ padding: 24, minHeight: 360 }}
               >
-                Bill is a cat.
+                <Switch>
+                  <Route path="/home" component={Dashbaord} />
+                  <Route path="/profile" component={Profile} />
+                </Switch>
               </div>
             </Content>
             <Footer style={{ textAlign: "center" }}>
