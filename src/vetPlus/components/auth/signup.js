@@ -1,7 +1,7 @@
 import React,  { Component } from "react";
 import { Card } from "antd";
 import "../../css/auth.css";
-import { Form, Input, Tooltip, Button, Cascader } from "antd";
+import { Form, Input, Tooltip, Button, Cascader, notification } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { signupUser } from "../../modules/reducers/authEffects";
 import { connect } from "react-redux";
@@ -55,6 +55,30 @@ class Signup extends Component {
   };
 
   render() {
+    if (this.props.user.isLogged !== undefined && this.props.user.isLogged === true){
+      localStorage.setItem('vet_token', this.props.user.token);
+      notification['success']({
+        message: `welcome ${this.props.user.currentUser.username}`,
+        description:this.props.user.response,
+        duration: 15,
+        placement:"topRight"
+      });
+      this.props.history.push('/home/dash')
+
+    }
+    if (this.props.user.isLogged === undefined || this.props.user.isLogged === false){
+      localStorage.getItem('vet_token');
+      this.props.user.response.forEach(element => {
+        localStorage.setItem('vet_token', this.props.user.token)
+        notification['warning']({
+          message: 'Registration failed',
+          description:element,
+          duration: 5,
+          placement:"bottomRight"
+        });
+
+      })
+    }
     return (
       <div>
         <Card type="inner" className="right-div-card" title="Sign up">
@@ -175,6 +199,12 @@ class Signup extends Component {
     );
   }
 }
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     onsignupUser: (values) => {
@@ -182,4 +212,4 @@ const mapDispatchToProps = (dispatch) => {
     },
   };
 };
-export default connect(null, mapDispatchToProps)(Signup);
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

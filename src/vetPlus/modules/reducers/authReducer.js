@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   isAdmin: false,
   isVet: false,
   response: [],
+  token:""
 };
 
 const authenticateUser = (user = INITIAL_STATE, action) => {
@@ -20,6 +21,7 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isUser: setUser(action.payload.user.user_type),
         isAdmin: setAdmin(action.payload.user.user_type),
         isVet: setVet(action.payload.user.user_type),
+        token: action.payload.jwt
        
       };
     case LOGIN_USER_ERROR:
@@ -31,6 +33,7 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isAdmin: false,
         isVet: false,
         response: action.payload.errors,
+        token:''
       };
 
     default:

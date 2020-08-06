@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import authenticateUser from './reducers/authReducer'
 const rootReducer = combineReducers({
-  authenticateUser
+  user :authenticateUser
 })
 
 export default rootReducer
