@@ -97,11 +97,23 @@ class Signup extends Component {
             <Form.Item
               name="password"
               label="Password"
+              dependencies={["password"]}
               rules={[
                 {
                   required: true,
                   message: "Please input your password!",
                 },
+                ({ getFieldValue }) => ({
+                  validator(rule, value) {
+                    if (!value || getFieldValue("password").length > 8) {
+                      return Promise.resolve();
+                    }
+
+                    return Promise.reject(
+                      "The password that you entered is too short!"
+                    );
+                  },
+                })
               ]}
               hasFeedback
             >

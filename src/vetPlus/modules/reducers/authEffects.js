@@ -11,15 +11,26 @@ import axios from 'axios';
           }
         })
         .then(res => {
-          setTimeout(() => {
+          if (res.data.status === "SUCCESS"){
+            setTimeout(() => {
           dispatch(loginUserSuccess(res.data));
           }, 2500)
-          console.log('current state:', res.data);
+
+          }
+          if (res.data.status === "FAIL"){
+          setTimeout(() => {
+          dispatch(loginUserError(res.data));
+          }, 2500)
+          }
+          console.log('current state:', getState());
+
         })
+        
         .catch(err => {
           dispatch(loginUserError(err.message));
-          console.log('current state:', getState());
+          
         });
+        
     };
   };
 
@@ -37,17 +48,24 @@ import axios from 'axios';
           }
         })
         .then(res => {
-          setTimeout(() => {
+          if (res.data.status === "SUCCESS"){
+            setTimeout(() => {
           dispatch(loginUserSuccess(res.data));
           }, 2500)
-          console.log('current data:', res.data)
-          
+
+          }
+          if (res.data.status === "FAIL"){
+          setTimeout(() => {
+          dispatch(loginUserError(res.data));
+          }, 2500)
+          }
+
         })
         .catch(err => {
           dispatch(loginUserError(err));
-          console.log('current err data:', err)
           
         });
+        console.log('current err data:', getState())
         
     };
   };
