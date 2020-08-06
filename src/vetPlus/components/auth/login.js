@@ -2,16 +2,19 @@ import React, { Component } from "react";
 import { Card, Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "../../css/auth.css";
+import {loginUser} from '../../modules/reducers/authEffects'
+import { connect } from 'react-redux';
 class Login extends Component {
 
   onFinish = values => {
     console.log('Received values of form: ', values);
+    this.props.onloginUser(values)
   };
 
 
   render() {
     return (
-      <Card className="right-div-card" title="Login" >
+      <Card className="right-div-card" title="Login" type="inner" >
           <Form
             name="normal_login"
             className="login-form"
@@ -71,4 +74,12 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+const mapDispatchToProps = dispatch => {
+  return {
+    onloginUser: values => {
+      dispatch(loginUser(values));
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

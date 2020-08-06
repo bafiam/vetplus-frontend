@@ -21,7 +21,7 @@ class Auth extends Component {
                 Registration
               </Button>
             </Link>
-            <Link to="/auth/login">
+            <Link to="/auth">
               <Button
                 size={"large"}
                 shape="round"
@@ -35,7 +35,7 @@ class Auth extends Component {
         </div>
         <div className="right-div">
           <Switch>
-            <Route path="/auth/login" component={Login} />
+            <Route path="/auth" exact component={Login} />
             <Route path="/auth/signup" component={Signup} />
           </Switch>
         </div>
