@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Card, Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "../../css/auth.css";
-import {loginUser} from '../../modules/reducers/authEffects'
+import {loginUser, getUser} from '../../modules/reducers/authEffects'
 import { connect } from 'react-redux';
 class Login extends Component {
 
@@ -12,7 +12,6 @@ class Login extends Component {
 
   render() {
     if (this.props.user.isLogged !== undefined && this.props.user.isLogged === true){
-      localStorage.setItem('vet_token', this.props.user.token);
       notification['success']({
         message: `welcome ${this.props.user.currentUser.username}`,
         description:this.props.user.response,
@@ -23,11 +22,12 @@ class Login extends Component {
 
     }
     if (this.props.user.isLogged === undefined || this.props.user.isLogged === false){
-      localStorage.getItem('vet_token');
+      let getToken = localStorage.getItem("vet_token");
+      this.props.onPageLoad(getToken)
       notification['warning']({
         message: 'Login failed',
         description:this.props.user.response,
-        duration: 5,
+        duration: 7,
         placement:"bottomRight"
       });
 
@@ -104,6 +104,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onloginUser: values => {
       dispatch(loginUser(values));
+    },
+    onPageLoad: value => {
+      dispatch(getUser(value))
     }
   };
 };

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu, Avatar } from "antd";
+import { Layout, Menu, Avatar, notification } from "antd";
 import "../css/layout.css";
 import {
   DesktopOutlined,
@@ -9,17 +9,38 @@ import {
 import { Route, Link, Switch } from "react-router-dom";
 import Dashbaord from "./dashbaord";
 import Profile from "./profile";
+import { connect } from "react-redux";
+import { getUser } from "../modules/reducers/authEffects";
 const { Header, Content, Footer, Sider } = Layout;
-export default class PageLayout extends Component {
+class PageLayout extends Component {
   state = {
     collapsed: false,
   };
 
   onCollapse = (collapsed) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
+  componentDidMount() {
+    let getToken = localStorage.getItem("vet_token");
+    setTimeout(() => {
+      this.props.onPageUser(getToken);
+    }, 2500)
+    
+  }
   render() {
+    if (
+      this.props.user.isLogged === undefined ||
+      this.props.user.isLogged === false
+    ) {
+      notification["warning"]({
+        message: "System resume failed, if it doesnt resume in a few, try to login again",
+        description: this.props.user.response,
+        duration: 20,
+        placement: "bottomRight",
+      });
+      this.props.history.push("/auth");
+    }
+
     return (
       <div>
         <Layout style={{ minHeight: "100vh" }}>
@@ -74,3 +95,18 @@ export default class PageLayout extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onPageUser: (values) => {
+      dispatch(getUser(values));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageLayout);

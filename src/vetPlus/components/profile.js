@@ -3,6 +3,7 @@ import { Card, Avatar, Descriptions} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import "../css/profile.css";
 import Editprofile from './editprofile'
+import { connect } from "react-redux";
 class Profile extends Component {
   render() {
 
@@ -14,7 +15,7 @@ class Profile extends Component {
             <div className="user-img">
               <Card bordered={false} className="avatar-card">
                 <Avatar shape="square" size={64} icon={<UserOutlined />} />
-                <p>Stephen Gumba</p>
+    <p>Stephen Gumba AKA {this.props.user.currentUser.username}</p> 
               </Card>
             </div>
             <div>
@@ -38,6 +39,7 @@ class Profile extends Component {
               </Card>
               <Card type="inner" title="Acount data">
                 Inner Card content
+    <p>{this.props.user.currentUser.user_type}</p>
               </Card>
             </div>
           </div>
@@ -47,4 +49,11 @@ class Profile extends Component {
   }
 }
 
-export default Profile;
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+
+export default connect(mapStateToProps, null)(Profile);

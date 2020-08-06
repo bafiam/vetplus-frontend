@@ -1,4 +1,10 @@
-import { LOGIN_USER_SUCCESS, LOGIN_USER_ERROR } from "./../actions/actionTypes";
+import { 
+  LOGIN_USER_SUCCESS, 
+  LOGIN_USER_ERROR,
+  MAP_USER_SUCCESS,
+  MAP_USER_ERROR
+
+  } from "./../actions/actionTypes";
 
 const INITIAL_STATE = {
   currentUser: [],
@@ -7,7 +13,8 @@ const INITIAL_STATE = {
   isAdmin: false,
   isVet: false,
   response: [],
-  token:""
+  token:"",
+  alert:''
 };
 
 const authenticateUser = (user = INITIAL_STATE, action) => {
@@ -35,6 +42,29 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         response: action.payload.errors,
         token:''
       };
+    case MAP_USER_SUCCESS:
+      return {
+        ...user,
+        currentUser: action.payload.user,
+        response: action.payload.messages,
+        isLogged: true,
+        isUser: setUser(action.payload.user.user_type),
+        isAdmin: setAdmin(action.payload.user.user_type),
+        isVet: setVet(action.payload.user.user_type),
+        
+      };
+    case MAP_USER_ERROR:
+      return {
+        ...user,
+        currentUser: [],
+        isLogged: false,
+        isUser: false,
+        isAdmin: false,
+        isVet: false,
+        response: action.payload.errors,
+        alert: action.payload.alert
+      };
+    
 
     default:
       return user;

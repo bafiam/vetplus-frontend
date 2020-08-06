@@ -1,4 +1,4 @@
-import {loginUserSuccess, loginUserError} from '../actions/actions'
+import {loginUserSuccess, loginUserError, getUserSuccess, getUserError} from '../actions/actions'
 import axios from 'axios';
 
   export const loginUser = ({ username, password }) => {
@@ -13,6 +13,7 @@ import axios from 'axios';
         .then(res => {
           if (res.data.status === "SUCCESS"){
             setTimeout(() => {
+              localStorage.setItem('vet_token', res.data.jwt);
           dispatch(loginUserSuccess(res.data));
           }, 2500)
 
@@ -50,6 +51,7 @@ import axios from 'axios';
         .then(res => {
           if (res.data.status === "SUCCESS"){
             setTimeout(() => {
+              localStorage.setItem('vet_token', res.data.jwt);
           dispatch(loginUserSuccess(res.data));
           }, 2500)
 
@@ -63,6 +65,38 @@ import axios from 'axios';
         })
         .catch(err => {
           dispatch(loginUserError(err));
+          
+        });
+        console.log('current err data:', getState())
+        
+    };
+  };
+  export const getUser = (token) => {
+    return (dispatch, getState) => {
+  
+      axios
+        .get(`http://localhost:3000/api/v1/login/`, {
+          headers: {
+            'Authorization': `Basic ${token}`
+          }
+        })
+        .then(res => {
+          if (res.data.status === "SUCCESS"){
+            setTimeout(() => {
+            
+          dispatch(getUserSuccess(res.data));
+          }, 2500)
+
+          }
+          if (res.data.status === "FAIL"){
+          setTimeout(() => {
+          dispatch(getUserError(res.data));
+          }, 2500)
+          }
+
+        })
+        .catch(err => {
+          dispatch(getUserError(err));
           
         });
         console.log('current err data:', getState())

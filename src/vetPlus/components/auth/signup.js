@@ -56,7 +56,6 @@ class Signup extends Component {
 
   render() {
     if (this.props.user.isLogged !== undefined && this.props.user.isLogged === true){
-      localStorage.setItem('vet_token', this.props.user.token);
       notification['success']({
         message: `welcome ${this.props.user.currentUser.username}`,
         description:this.props.user.response,
@@ -67,7 +66,6 @@ class Signup extends Component {
 
     }
     if (this.props.user.isLogged === undefined || this.props.user.isLogged === false){
-      localStorage.getItem('vet_token');
       this.props.user.response.forEach(element => {
         localStorage.setItem('vet_token', this.props.user.token)
         notification['warning']({

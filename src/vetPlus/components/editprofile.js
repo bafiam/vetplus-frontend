@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {  Modal, Button} from "antd";
 import "../css/profile.css";
+import { connect } from "react-redux";
 class Editprofile extends Component {
   state = {
     visible: false,
@@ -53,5 +54,12 @@ class Editprofile extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
 
-export default Editprofile;
+
+export default connect(mapStateToProps, null)(Editprofile);
+
