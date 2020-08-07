@@ -1,9 +1,9 @@
-import React,  { Component } from "react";
+import React, { Component } from "react";
 import { Card } from "antd";
 import "../../css/auth.css";
 import { Form, Input, Tooltip, Button, Cascader, notification } from "antd";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { signupUser } from "../../modules/reducers/authEffects";
+import { signupUser, getUser } from "../../modules/reducers/authEffects";
 import { connect } from "react-redux";
 const residences = [
   {
@@ -51,38 +51,55 @@ class Signup extends Component {
 
   onFinish = (values) => {
     console.log("Received values of form: ", values);
-    this.props.onsignupUser(values)
+    this.props.onsignupUser(values);
   };
+  componentWillMount() {
+    let getToken = localStorage.getItem("vet_token");
+    setTimeout(() => {
+      this.props.onPageLoad(getToken);
+    }, 2500);
+  }
 
   render() {
-    if (this.props.user.isLogged !== undefined && this.props.user.isLogged === true){
-      notification['success']({
+    if (
+      this.props.user.isLogged !== undefined &&
+      this.props.user.isLogged === true
+    ) {
+      notification["success"]({
         message: `welcome ${this.props.user.currentUser.username}`,
-        description:this.props.user.response,
+        description: this.props.user.response,
         duration: 15,
-        placement:"topRight"
+        placement: "topRight",
       });
-      this.props.history.push('/home/dash')
-
+      this.props.history.push("/home/dash");
     }
-    if (this.props.user.isLogged === undefined || this.props.user.isLogged === false){
-      this.props.user.response.forEach(element => {
-        localStorage.setItem('vet_token', this.props.user.token)
-        notification['warning']({
-          message: 'Registration failed',
-          description:element,
-          duration: 5,
-          placement:"bottomRight"
+    if (
+      this.props.user.isLogged === undefined ||
+      this.props.user.isLogged === false
+    ) {
+      if (typeof this.props.user.response === Array) {
+        this.props.user.response.forEach((element) => {
+          notification["warning"]({
+            message: "Registration failed",
+            description: element,
+            duration: 5,
+            placement: "bottomRight",
+          });
         });
-
-      })
+      } else {
+        notification["warning"]({
+          message: "Registration failed",
+          description: this.props.user.response,
+          duration: 5,
+          placement: "bottomRight",
+        });
+      }
     }
     return (
       <div>
         <Card type="inner" className="right-div-card" title="Sign up">
           <Form
             {...formItemLayout}
-            
             name="register"
             onFinish={this.onFinish}
             scrollToFirstError
@@ -135,7 +152,7 @@ class Signup extends Component {
                       "The password that you entered is too short!"
                     );
                   },
-                })
+                }),
               ]}
               hasFeedback
             >
@@ -197,16 +214,19 @@ class Signup extends Component {
     );
   }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.user
-  }
-}
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onsignupUser: (values) => {
       dispatch(signupUser(values));
+    },
+    onPageLoad: (value) => {
+      dispatch(getUser(value));
     },
   };
 };

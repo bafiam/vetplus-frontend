@@ -1,16 +1,17 @@
 import React, { Component } from "react";
-import { Layout, Menu, Avatar, notification } from "antd";
+import { Layout, Menu, Avatar, notification, Button } from "antd";
 import "../css/layout.css";
 import {
   DesktopOutlined,
   UserOutlined,
   ProfileOutlined,
+  LogoutOutlined
 } from "@ant-design/icons";
 import { Route, Link, Switch } from "react-router-dom";
 import Dashbaord from "./dashbaord";
 import Profile from "./profile";
 import { connect } from "react-redux";
-import { getUser } from "../modules/reducers/authEffects";
+import { getUser, logOutUser } from "../modules/reducers/authEffects";
 const { Header, Content, Footer, Sider } = Layout;
 class PageLayout extends Component {
   state = {
@@ -24,16 +25,29 @@ class PageLayout extends Component {
     let getToken = localStorage.getItem("vet_token");
     setTimeout(() => {
       this.props.onPageUser(getToken);
-    }, 2500)
-    
+    }, 2500);
   }
+  onClick = () => {
+    setTimeout(() => {
+      this.props.goodByeUser();
+      notification["success"]({
+        message: "Good bye",
+        description: this.props.user.response,
+        duration: 10,
+        placement: "bottomRight",
+      });
+    });
+
+    this.props.history.push("/auth");
+  };
   render() {
     if (
       this.props.user.isLogged === undefined ||
       this.props.user.isLogged === false
     ) {
       notification["warning"]({
-        message: "System resume failed, if it doesnt resume in a few, try to login again",
+        message:
+          "System resume failed, if it doesnt resume in a few, try to login again",
         description: this.props.user.response,
         duration: 20,
         placement: "bottomRight",
@@ -69,9 +83,10 @@ class PageLayout extends Component {
                 <div className="logo-name">vet plus</div>
                 <div className="avatar">
                   <Avatar
-                    style={{ backgroundColor: "#87d068" }}
+                    style={{ backgroundColor: "#87d068", marginRight:15 }}
                     icon={<UserOutlined />}
                   />
+                  <Button onClick={() => this.onClick()} shape="round" icon={<LogoutOutlined />}>Logout</Button>
                 </div>
               </div>
             </Header>
@@ -105,6 +120,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onPageUser: (values) => {
       dispatch(getUser(values));
+    },
+    goodByeUser: () => {
+      dispatch(logOutUser());
     },
   };
 };

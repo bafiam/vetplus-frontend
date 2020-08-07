@@ -9,29 +9,38 @@ class Login extends Component {
   onFinish = values => {
     this.props.onloginUser(values)
   };
-
-  render() {
-    if (this.props.user.isLogged !== undefined && this.props.user.isLogged === true){
-      notification['success']({
-        message: `welcome ${this.props.user.currentUser.username}`,
-        description:this.props.user.response,
-        duration: 15,
-        placement:"topRight"
-      });
-      this.props.history.push('/home/dash')
-
-    }
-    if (this.props.user.isLogged === undefined || this.props.user.isLogged === false){
-      let getToken = localStorage.getItem("vet_token");
+  componentWillMount(){
+    let getToken = localStorage.getItem("vet_token");
+    setTimeout(() => {
       this.props.onPageLoad(getToken)
-      notification['warning']({
-        message: 'Login failed',
-        description:this.props.user.response,
-        duration: 7,
-        placement:"bottomRight"
-      });
-
+    }, 2500)
+  }
+ 
+  render() {
+    if (this.props.user.isLogged !== undefined) {
+      if (this.props.user.isLogged === true){
+        notification['success']({
+          message: `welcome ${this.props.user.currentUser.username}`,
+          description:this.props.user.response,
+          duration: 15,
+          placement:"topRight"
+        });
+        this.props.history.push('/home/dash')
+  
+      }
+      if (this.props.user.isLogged === false){
+        
+        notification['warning']({
+          message: 'Login failed',
+          description:this.props.user.response,
+          duration: 7,
+          placement:"bottomRight"
+        });
+  
+      }
+      
     }
+   
     return (
       <Card className="right-div-card" title="Login" type="inner" >
       

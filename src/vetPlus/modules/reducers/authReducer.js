@@ -2,7 +2,8 @@ import {
   LOGIN_USER_SUCCESS, 
   LOGIN_USER_ERROR,
   MAP_USER_SUCCESS,
-  MAP_USER_ERROR
+  MAP_USER_ERROR,
+  LOGOUT_USER_SUCCESS
 
   } from "./../actions/actionTypes";
 
@@ -12,9 +13,7 @@ const INITIAL_STATE = {
   isUser: false,
   isAdmin: false,
   isVet: false,
-  response: [],
-  token:"",
-  alert:''
+  response: []
 };
 
 const authenticateUser = (user = INITIAL_STATE, action) => {
@@ -27,8 +26,7 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isLogged: true,
         isUser: setUser(action.payload.user.user_type),
         isAdmin: setAdmin(action.payload.user.user_type),
-        isVet: setVet(action.payload.user.user_type),
-        token: action.payload.jwt
+        isVet: setVet(action.payload.user.user_type)
        
       };
     case LOGIN_USER_ERROR:
@@ -40,7 +38,6 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isAdmin: false,
         isVet: false,
         response: action.payload.errors,
-        token:''
       };
     case MAP_USER_SUCCESS:
       return {
@@ -62,7 +59,16 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isAdmin: false,
         isVet: false,
         response: action.payload.errors,
-        alert: action.payload.alert
+      };
+    case LOGOUT_USER_SUCCESS:
+      return {
+        ...user,
+        currentUser: [],
+        isLogged: false,
+        isUser: false,
+        isAdmin: false,
+        isVet: false,
+        response: action.payload.messages
       };
     
 

@@ -27,3 +27,7 @@ export const getUserError = (err) => ({
   type: MAP_USER_ERROR,
   payload: err
 })
+export const logoutUserSuccess = (userObj) => ({
+  type: LOGOUT_USER_SUCCESS,
+  payload: userObj
+})
