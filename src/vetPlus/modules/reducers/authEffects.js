@@ -104,33 +104,25 @@ export const getUser = (token) => {
   };
 };
 export const logOutUser = () => {
-  let getToken = localStorage.getItem("vet_token");
+  
   return (dispatch, getState) => {
-
-    axios.post(`http://localhost:3000/api/v1/logout/`, {
+    let getToken = localStorage.getItem("vet_token");
+    axios.get(`http://localhost:3000/api/v1/logout/`, {
     
         headers: {
           'Authorization': `Basic ${getToken}`
         }
       })
       .then(res => {
-        
         if (res.data.status === "SUCCESS"){
           setTimeout(() => {
         dispatch(logoutUserSuccess(res.data));
-        console.log("maryann", res)
         }, 2500)
 
         }
-        if (res.data.status === "FAIL"){
-          setTimeout(() => {
-            console.log("maryann fail", res.data)
-          dispatch(logoutUserSuccess(res.data));
-          }, 2500)
-          }
+
       })
       .catch(err => {
-        console.log("maryann catch", err)
         dispatch(logoutUserSuccess(err));
         
       });
