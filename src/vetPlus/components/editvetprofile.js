@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Modal, Form, Input, Select } from "antd";
+import { Button, Modal, Form, Input, InputNumber , Select} from "antd";
 import "../css/profile.css";
 import { connect } from "react-redux";
 
@@ -27,13 +27,17 @@ const tailFormItemLayout = {
 };
 const { Option } = Select;
 const prefixSelector = (
+  
   <Form.Item name="prefix" noStyle>
-    <Select style={{ width: 90 }}>
-      <Option value="254">+254</Option>
-    </Select>
-  </Form.Item>
+  <Select style={{ width: 90 }}>
+    <Option value="254">+254</Option>
+    
+  </Select>
+</Form.Item>
+ 
 );
-class Editprofile extends Component {
+
+class EditVetprofile extends Component {
   formRef = React.createRef();
   state = {
     visible: false,
@@ -42,6 +46,7 @@ class Editprofile extends Component {
   onCreate = (values) => {
     console.log("Received values of form: ", values);
     this.setVisible(true);
+
   };
 
   onCancel = () => {
@@ -53,6 +58,7 @@ class Editprofile extends Component {
       visible: value,
     });
   };
+ 
 
   render() {
     const { visible } = this.state;
@@ -65,7 +71,7 @@ class Editprofile extends Component {
             this.setVisible(true);
           }}
         >
-          Edit user profile
+          Edit vet profile
         </Button>
         <Modal
           visible={visible}
@@ -76,7 +82,7 @@ class Editprofile extends Component {
           onOk={this.onCancel}
         >
           <Form
-            {...formItemLayout}
+          {...formItemLayout}
             ref={this.formRef}
             name="normal_edit"
             className="edit-form"
@@ -108,8 +114,9 @@ class Editprofile extends Component {
               <Input placeholder="Second name" />
             </Form.Item>
             <Form.Item
+
               name="phone"
-              label="Phone Number"
+             label="Phone Number"
               wrapperCol={{ span: 128 }}
               rules={[
                 {
@@ -118,7 +125,7 @@ class Editprofile extends Component {
                 },
               ]}
             >
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+              <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
               label="Location"
@@ -131,6 +138,19 @@ class Editprofile extends Component {
               ]}
             >
               <Input placeholder="Location" />
+            </Form.Item>
+
+            <Form.Item
+              label="Licence number"
+              name="licence"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your licence number!",
+                },
+              ]}
+            >
+              <Input placeholder="Licence number" />
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>
@@ -154,4 +174,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Editprofile);
+
+
+
+export default connect(mapStateToProps, null)(EditVetprofile);
+
