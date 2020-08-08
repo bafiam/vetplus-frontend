@@ -4,9 +4,21 @@ import {
   MAP_USER_SUCCESS,
   LOGOUT_USER_SUCCESS,
   MAP_USER_ERROR,
-  LOGOUT_USER_ERROR
+  PROFILE_SUCCESS,
+  PROFILE_ERROR
 } from './actionTypes'
 
+
+
+export const ProfileSuccess = (profileObj) => ({
+  type: PROFILE_SUCCESS,
+  payload: profileObj
+})
+
+export const ProfileError = (err) => ({
+  type: PROFILE_ERROR,
+  payload: err
+})
 
 export const loginUserSuccess = (userObj) => ({
   type: LOGIN_USER_SUCCESS,
