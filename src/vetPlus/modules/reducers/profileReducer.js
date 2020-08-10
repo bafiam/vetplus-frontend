@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   profile: [],
   response: "",
   setProfile: false,
+  saveProfile:false
 };
 
 const allProfile =(state = INITIAL_STATE, action) => {
@@ -17,12 +18,15 @@ const allProfile =(state = INITIAL_STATE, action) => {
         profile: action.payload.profile,
         response: action.payload.messages,
         setProfile: true,
+        saveProfile:true
       };
     case PROFILE_ERROR:
       return {
         ...state,
+        profile: [],
         response: action.payload.errors,
         setProfile: false,
+        saveProfile:false
       };
     
 

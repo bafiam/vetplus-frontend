@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Button, Modal, Form, Input, Select } from "antd";
+import { Button, Modal, Form, Input, Select, notification } from "antd";
 import "../css/profile.css";
 import { connect } from "react-redux";
-
+import {postUserProfile} from '../modules/reducers/profileEffects'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -42,6 +42,23 @@ class Editprofile extends Component {
   onCreate = (values) => {
     console.log("Received values of form: ", values);
     this.setVisible(true);
+    this.props.onPageSubmit(values)
+    if (this.props.profile.saveProfile === false) {
+      notification['info']({
+        message: `Saving profile data..`,
+        description:this.props.profile.response,
+        duration: 6,
+        placement:"topLeft"
+      });
+      }
+    if (this.props.profile.saveProfile === true) {
+      notification['info']({
+        message: `profile saved successfully`,
+        description:this.props.profile.response,
+        duration: 6,
+        placement:"topLeft"
+      });
+      }
   };
 
   onCancel = () => {
@@ -65,7 +82,7 @@ class Editprofile extends Component {
             this.setVisible(true);
           }}
         >
-          Edit user profile
+          Create user profile
         </Button>
         <Modal
           visible={visible}
@@ -151,7 +168,15 @@ class Editprofile extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    profile:state.profile
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onPageSubmit: (values) => {
+      dispatch(postUserProfile(values));
+    }
   };
 };
 
-export default connect(mapStateToProps, null)(Editprofile);
+export default connect(mapStateToProps, mapDispatchToProps)(Editprofile);

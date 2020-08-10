@@ -12,11 +12,16 @@ class Profile extends Component {
     let editprofile
     let userprofile
     if (this.props.user.isUser === true && this.props.user.isAdmin === false && this.props.user.isVet === false) {
-      editprofile = <Editprofile></Editprofile>
+      if (this.props.profile.setProfile === false) {
+        editprofile = <Editprofile></Editprofile>
+      }
       userprofile = <UserProfile></UserProfile>
     }
     if (this.props.user.isUser === false && this.props.user.isAdmin === false && this.props.user.isVet === true) {
-      editprofile = <EditVetprofile></EditVetprofile>
+      if (this.props.profile.setProfile === false) {
+        editprofile = <EditVetprofile></EditVetprofile>
+      }
+      
       userprofile = <VetProfile></VetProfile>
     }
 
@@ -33,6 +38,7 @@ class Profile extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    profile:state.profile
   };
 };
 

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Button, Modal, Form, Input, InputNumber , Select} from "antd";
+import { Button, Modal, Form, Input, notification , Select} from "antd";
 import "../css/profile.css";
 import { connect } from "react-redux";
-
+import {postVetProfile} from '../modules/reducers/profileEffects'
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -28,7 +28,16 @@ const tailFormItemLayout = {
 const { Option } = Select;
 const prefixSelector = (
   
-  <Form.Item name="prefix" noStyle>
+  <Form.Item 
+  name="prefix"
+  noStyle
+  rules={[
+    {
+      required: true,
+      message: "Please input your phone prefix!",
+    },
+  ]}
+  >
   <Select style={{ width: 90 }}>
     <Option value="254">+254</Option>
     
@@ -44,8 +53,25 @@ class EditVetprofile extends Component {
   };
 
   onCreate = (values) => {
-    console.log("Received values of form: ", values);
+    console.log("Received values of form: ",  this.props.user.user);
+    this.props.onPageSubmit(values)
     this.setVisible(true);
+    if (this.props.profile.saveProfile === false) {
+      notification['info']({
+        message: `Saving profile data..`,
+        description:this.props.profile.response,
+        duration: 6,
+        placement:"topLeft"
+      });
+      }
+    if (this.props.profile.saveProfile === true) {
+      notification['success']({
+        message: `profile saved successfully`,
+        description:this.props.profile.response,
+        duration: 6,
+        placement:"topLeft"
+      });
+      }
 
   };
 
@@ -71,7 +97,7 @@ class EditVetprofile extends Component {
             this.setVisible(true);
           }}
         >
-          Edit vet profile
+          Create vet profile
         </Button>
         <Modal
           visible={visible}
@@ -171,11 +197,18 @@ class EditVetprofile extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    profile:state.profile
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onPageSubmit: (values) => {
+      dispatch(postVetProfile(values));
+    }
   };
 };
 
 
-
-
-export default connect(mapStateToProps, null)(EditVetprofile);
+export default connect(mapStateToProps, mapDispatchToProps)(EditVetprofile);
 
