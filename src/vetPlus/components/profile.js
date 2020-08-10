@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Card, Avatar, Descriptions} from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import "../css/profile.css";
 import Editprofile from './editprofile'
 import { connect } from "react-redux";
 import UserProfile from './userprofile'
 import EditVetprofile from './editvetprofile'
 import VetProfile from './vetprofile'
+import AdminProfile from '../components/adminprofile'
 class Profile extends Component {
   render() {
     let editprofile
@@ -23,6 +22,10 @@ class Profile extends Component {
       }
       
       userprofile = <VetProfile></VetProfile>
+    }
+    if (this.props.user.isUser === false && this.props.user.isAdmin === true && this.props.user.isVet === false) {
+     
+      userprofile = <AdminProfile></AdminProfile>
     }
 
     return (

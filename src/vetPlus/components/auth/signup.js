@@ -14,6 +14,10 @@ const residences = [
     value: "vet",
     label: "vet",
   },
+  // {
+  //   value: "admin",
+  //   label: "admin",
+  // }
 ];
 const formItemLayout = {
   labelCol: {
@@ -47,7 +51,6 @@ const tailFormItemLayout = {
 };
 
 class Signup extends Component {
-  // form = Form.useForm();
 
   onFinish = (values) => {
     console.log("Received values of form: ", values);

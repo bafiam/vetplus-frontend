@@ -135,3 +135,68 @@ export const postVetProfile = ({firstname, secondname, phone, location, licence,
       });
   };
 };
+export const adminUpdateProfile = (id) => {
+  return (dispatch) => {
+    let getToken = localStorage.getItem("vet_token");
+    const data = {
+      status:{
+        id:id
+        }
+      }
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${getToken}`
+    }
+    let param = id
+  
+
+    axios
+      .put(`http://localhost:3000/api/v1/admin/${param}`, data, {
+        "headers": headers
+       
+        
+      })
+      .then((res) => {
+        if (res.data.status === "SUCCESS") {
+          setTimeout(() => {
+            dispatch(ProfileSuccess(res.data));
+          }, 2500);
+        }
+        if (res.data.status === "FAIL") {
+          setTimeout(() => {
+            dispatch(ProfileError(res.data));
+          }, 2500);
+        }
+      })
+      .catch((err) => {
+        dispatch(ProfileError(err));
+      });
+  };
+};
+export const getUnapprovedVet = () => {
+  return (dispatch) => {
+    let getToken = localStorage.getItem("vet_token");
+
+    axios
+      .get(`http://localhost:3000/api/v1/admin/`, {
+        headers: {
+          Authorization: `Basic ${getToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.data.status === "SUCCESS") {
+          setTimeout(() => {
+            dispatch(ProfileSuccess(res.data));
+          }, 2500);
+        }
+        if (res.data.status === "FAIL") {
+          setTimeout(() => {
+            dispatch(ProfileError(res.data));
+          }, 2500);
+        }
+      })
+      .catch((err) => {
+        dispatch(ProfileError(err));
+      });
+  };
+};
