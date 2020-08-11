@@ -16,13 +16,6 @@ import {
 } from "../modules/reducers/profileEffects";
 
 class AdminProfile extends Component {
-  constructor(props) {
-    super(props)
-  
-    this.state = {
-       listCount:0
-    };
-  };
   
 
   componentDidMount() {
@@ -48,6 +41,7 @@ class AdminProfile extends Component {
       this.props.onPageLoad();
     }
   };
+
 
   render() {
     if (this.props.profile.setProfile === true) {

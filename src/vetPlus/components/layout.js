@@ -5,13 +5,16 @@ import {
   DesktopOutlined,
   UserOutlined,
   ProfileOutlined,
-  LogoutOutlined
+  LogoutOutlined, 
+  UserSwitchOutlined
 } from "@ant-design/icons";
 import { Route, Link, Switch } from "react-router-dom";
 import Dashbaord from "./dashbaord";
 import Profile from "./profile";
 import { connect } from "react-redux";
 import { getUser, logOutUser } from "../modules/reducers/authEffects";
+import Booking from "./booking"
+import UserBooking from './userbookings'
 const { Header, Content, Footer, Sider } = Layout;
 class PageLayout extends Component {
   state = {
@@ -54,6 +57,16 @@ class PageLayout extends Component {
       });
       this.props.history.push("/auth");
     }
+    let userBook
+    if (this.props.user.isUser === true) {
+
+      userBook = <Menu.Item key="4" icon={<UserSwitchOutlined />}>
+        <Link to="/home/book">
+          Book Appointment
+        </Link>
+                
+              </Menu.Item>
+    }
 
     return (
       <div>
@@ -73,8 +86,10 @@ class PageLayout extends Component {
               </Menu.Item>
 
               <Menu.Item key="3" icon={<DesktopOutlined />}>
-                My Appointments
+              <Link to="/home/bookings">My Appointments</Link>
+                
               </Menu.Item>
+              {userBook}
             </Menu>
           </Sider>
           <Layout className="site-layout">
@@ -98,6 +113,8 @@ class PageLayout extends Component {
                 <Switch>
                   <Route path="/home/dash" component={Dashbaord} />
                   <Route path="/home/profile" component={Profile} />
+                  <Route path="/home/book" component={Booking} />
+                  <Route path="/home/bookings" component={UserBooking} />
                 </Switch>
               </div>
             </Content>

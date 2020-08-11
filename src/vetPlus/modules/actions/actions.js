@@ -5,10 +5,31 @@ import {
   LOGOUT_USER_SUCCESS,
   MAP_USER_ERROR,
   PROFILE_SUCCESS,
-  PROFILE_ERROR
+  PROFILE_ERROR,
+  VET_SUCCESS,
+  VET_ERROR, 
+  BOOKING_SUCCESS,
+  BOOKING_ERROR
 } from './actionTypes'
 
+export const BookSuccess = (profileObj) => ({
+  type: BOOKING_SUCCESS,
+  payload: profileObj
+})
 
+export const BookError = (err) => ({
+  type: BOOKING_ERROR,
+  payload: err
+})
+export const VetSuccess = (profileObj) => ({
+  type: VET_SUCCESS,
+  payload: profileObj
+})
+
+export const VetError = (err) => ({
+  type: VET_ERROR,
+  payload: err
+})
 
 export const ProfileSuccess = (profileObj) => ({
   type: PROFILE_SUCCESS,
