@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {
-  loginUserSuccess, loginUserError, getUserSuccess, getUserError, logoutUserSuccess,
+  loginUserSuccess, loginUserError, getUserSuccess, getUserError, logoutUserSuccess, BASE_URL,
 } from '../actions/actions';
 
 export const loginUser = ({ username, password }) => dispatch => {
   axios
-    .post('http://localhost:3000/api/v1/login', {
+    .post(`${BASE_URL}/api/v1/login`, {
       user: {
         username,
         password,
@@ -35,7 +35,7 @@ export const signupUser = ({
   email, nickname, password, confirm, user_type,
 }) => dispatch => {
   axios
-    .post('http://localhost:3000/api/v1/user', {
+    .post(`${BASE_URL}/api/v1/user`, {
       user: {
         username: nickname,
         password,
@@ -64,7 +64,7 @@ export const signupUser = ({
 export const getUser = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
   axios
-    .get('http://localhost:3000/api/v1/login/', {
+    .get(`${BASE_URL}/api/v1/login/`, {
       headers: {
         Authorization: `Basic ${getToken}`,
       },
@@ -87,7 +87,7 @@ export const getUser = () => dispatch => {
 };
 export const logOutUser = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
-  axios.get('http://localhost:3000/api/v1/logout/', {
+  axios.get(`${BASE_URL}/api/v1/logout/`, {
 
     headers: {
       Authorization: `Basic ${getToken}`,

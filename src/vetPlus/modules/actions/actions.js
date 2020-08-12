@@ -76,3 +76,5 @@ export const logoutUserSuccess = userObj => ({
   type: LOGOUT_USER_SUCCESS,
   payload: userObj,
 });
+
+export const BASE_URL = 'https://mighty-badlands-24775.herokuapp.com';

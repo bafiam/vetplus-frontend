@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {
-  VetSuccess, VetError, BookSuccess, BookError,
+  VetSuccess, VetError, BookSuccess, BookError, BASE_URL,
 } from '../actions/actions';
 
 export const getVetsProfile = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
 
   axios
-    .get('http://localhost:3000/api/v1/appointment/', {
+    .get(`${BASE_URL}/api/v1/appointment/`, {
       headers: {
         Authorization: `Basic ${getToken}`,
       },
@@ -38,7 +38,7 @@ export const postBookingProfile = data => dispatch => {
   };
 
   axios
-    .post('http://localhost:3000/api/v1/appointment/', data, {
+    .post(`${BASE_URL}/api/v1/appointment/`, data, {
       headers,
 
     })

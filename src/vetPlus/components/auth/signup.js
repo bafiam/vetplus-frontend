@@ -19,9 +19,9 @@ const residences = [
     label: 'vet',
   },
   // {
-  //   value: "admin",
-  //   label: "admin",
-  // }
+  //   value: 'admin',
+  //   label: 'admin',
+  // },
 ];
 const formItemLayout = {
   labelCol: {

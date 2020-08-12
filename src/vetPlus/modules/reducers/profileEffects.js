@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { ProfileSuccess, ProfileError } from '../actions/actions';
+import { ProfileSuccess, ProfileError, BASE_URL } from '../actions/actions';
 
 export const getUserProfile = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
 
   axios
-    .get('http://localhost:3000/api/v1/profile/', {
+    .get(`${BASE_URL}/api/v1/profile/`, {
       headers: {
         Authorization: `Basic ${getToken}`,
       },
@@ -44,7 +44,7 @@ export const postUserProfile = ({
   };
 
   axios
-    .post('http://localhost:3000/api/v1/profile/', profile, {
+    .post(`${BASE_URL}/api/v1/profile/`, profile, {
       headers,
 
     })
@@ -68,7 +68,7 @@ export const getVetProfile = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
 
   axios
-    .get('http://localhost:3000/api/v1/vet/', {
+    .get(`${BASE_URL}/api/v1/vet/`, {
       headers: {
         Authorization: `Basic ${getToken}`,
       },
@@ -110,7 +110,7 @@ export const postVetProfile = ({
   };
 
   axios
-    .post('http://localhost:3000/api/v1/vet/', profile, {
+    .post(`${BASE_URL}/api/v1/vet/`, profile, {
       headers,
 
     })
@@ -144,7 +144,7 @@ export const adminUpdateProfile = id => dispatch => {
   const param = id;
 
   axios
-    .put(`http://localhost:3000/api/v1/admin/${param}`, data, {
+    .put(`${BASE_URL}/api/v1/admin/${param}`, data, {
       headers,
 
     })
@@ -168,7 +168,7 @@ export const getUnapprovedVet = () => dispatch => {
   const getToken = localStorage.getItem('vet_token');
 
   axios
-    .get('http://localhost:3000/api/v1/admin/', {
+    .get(`${BASE_URL}/api/v1/admin/`, {
       headers: {
         Authorization: `Basic ${getToken}`,
       },
