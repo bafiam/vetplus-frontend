@@ -49,7 +49,6 @@ const prefixSelector = (
   </Form.Item>
 
 );
-const formRef = React.createRef();
 
 class EditVetprofile extends Component {
   constructor(props) {
@@ -58,6 +57,10 @@ class EditVetprofile extends Component {
     this.state = {
       visible: false,
     };
+    this.onCreate = this.onCreate.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.setVisible = this.setVisible.bind(this);
+    this.formRef = React.createRef();
   }
 
   onCreate(values) {
@@ -84,7 +87,7 @@ class EditVetprofile extends Component {
 
   onCancel() {
     this.setVisible(false);
-    formRef.current.resetFields();
+    this.formRef.current.resetFields();
   }
 
   setVisible(value) {
@@ -117,7 +120,7 @@ class EditVetprofile extends Component {
           <Form
           // eslint-disable-next-line react/jsx-props-no-spreading
             {...formItemLayout}
-            ref={formRef}
+            ref={this.formRef}
             name="normal_edit"
             className="edit-form"
             onFinish={this.onCreate}

@@ -9,17 +9,23 @@ import PropTypes from 'prop-types';
 import { loginUser, getUser } from '../../modules/reducers/authEffects';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onFinish = this.onFinish.bind(this);
+  }
+
   componentDidMount() {
     const {
       onPageLoad,
     } = this.props;
-    const getToken = localStorage.getItem('vet_token');
+
     setTimeout(() => {
-      onPageLoad(getToken);
+      onPageLoad();
     }, 2500);
   }
 
-  static onFinish(values) {
+  onFinish(values) {
     const {
       onloginUser,
     } = this.props;
@@ -120,8 +126,8 @@ const mapDispatchToProps = dispatch => ({
   onloginUser: values => {
     dispatch(loginUser(values));
   },
-  onPageLoad: value => {
-    dispatch(getUser(value));
+  onPageLoad: () => {
+    dispatch(getUser());
   },
 });
 Login.propTypes = {

@@ -17,6 +17,12 @@ import {
 } from '../modules/reducers/profileEffects';
 
 class AdminProfile extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onApprov = this.onApprov.bind(this);
+  }
+
   componentDidMount() {
     const {
       onPageLoad, profile,
@@ -32,7 +38,7 @@ class AdminProfile extends Component {
     }
   }
 
-  static onApprov(e, data) {
+  onApprov(e, data) {
     const {
       onPageLoad, profile, updateApprov,
     } = this.props;

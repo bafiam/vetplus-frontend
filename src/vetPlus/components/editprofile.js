@@ -46,6 +46,9 @@ class Editprofile extends Component {
     this.state = {
       visible: false,
     };
+    this.onCreate = this.onCreate.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.setVisible = this.setVisible.bind(this);
   }
 
   onCreate(values) {

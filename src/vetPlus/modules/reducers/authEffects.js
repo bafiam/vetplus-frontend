@@ -61,11 +61,12 @@ export const signupUser = ({
       dispatch(loginUserError(err));
     });
 };
-export const getUser = token => dispatch => {
+export const getUser = () => dispatch => {
+  const getToken = localStorage.getItem('vet_token');
   axios
     .get('http://localhost:3000/api/v1/login/', {
       headers: {
-        Authorization: `Basic ${token}`,
+        Authorization: `Basic ${getToken}`,
       },
     })
     .then(res => {

@@ -55,6 +55,12 @@ const tailFormItemLayout = {
 };
 
 class Signup extends Component {
+  constructor(props) {
+    super(props);
+
+    this.onFinish = this.onFinish.bind(this);
+  }
+
   componentDidMount() {
     const {
       onPageLoad,
@@ -65,7 +71,7 @@ class Signup extends Component {
     }, 2500);
   }
 
-  static onFinish(values) {
+  onFinish(values) {
     const {
       onsignupUser,
     } = this.props;
@@ -92,8 +98,8 @@ class Signup extends Component {
       user.isLogged === undefined
       || user.isLogged === false
     ) {
-      if (user.response.length > 2) {
-        [user.response].forEach(element => {
+      if ([user.response].length > 1) {
+        [...user.response].forEach(element => {
           notification.warning({
             message: 'Registration failed',
             description: element,

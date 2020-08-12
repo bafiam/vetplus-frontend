@@ -32,6 +32,8 @@ class PageLayout extends Component {
       collapsed: false,
 
     };
+    this.onClick = this.onClick.bind(this);
+    this.onCollapse = this.onCollapse.bind(this);
   }
 
   componentDidMount() {
@@ -44,7 +46,7 @@ class PageLayout extends Component {
     }, 2500);
   }
 
-  static onClick() {
+  onClick() {
     const {
       goodByeUser, user, history,
     } = this.props;
@@ -83,23 +85,30 @@ class PageLayout extends Component {
       history.push('/auth');
     }
     let userBook;
+    let myAppointments;
 
     let vetAppointments;
     if (user.isUser === true) {
       userBook = (
-        <div>
-          <Menu.Item key="4" icon={<UserSwitchOutlined />}>
-            <Link to="/home/book">Book Appointment</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<DesktopOutlined />}>
-            <Link to="/home/bookings">My Appointments</Link>
-          </Menu.Item>
-        </div>
+
+        <Menu.Item key="3" icon={<UserSwitchOutlined />}>
+          <Link to="/home/book">Book Appointment</Link>
+        </Menu.Item>
+
+      );
+    }
+    if (user.isUser === true) {
+      myAppointments = (
+
+        <Menu.Item key="4" icon={<DesktopOutlined />}>
+          <Link to="/home/bookings">My Appointments</Link>
+        </Menu.Item>
+
       );
     }
     if (user.isVet === true) {
       vetAppointments = (
-        <Menu.Item key="3" icon={<DesktopOutlined />}>
+        <Menu.Item key="5" icon={<DesktopOutlined />}>
           <Link to="/home/patients">Patients Appointments</Link>
         </Menu.Item>
       );
@@ -124,6 +133,7 @@ class PageLayout extends Component {
               </Menu.Item>
               {userBook}
               {vetAppointments}
+              {myAppointments}
             </Menu>
           </Sider>
           <Layout className="site-layout">

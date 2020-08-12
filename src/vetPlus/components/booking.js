@@ -74,6 +74,11 @@ class Booking extends Component {
       triggered: false,
     };
     this.formRef = React.createRef();
+    this.onApprov = this.onApprov.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onCreate = this.onCreate.bind(this);
+    this.onOk = this.onOk.bind(this);
+    this.setVisible = this.setVisible.bind(this);
   }
 
   componentDidMount() {
