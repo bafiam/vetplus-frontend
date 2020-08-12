@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Card,
   Modal,
@@ -8,14 +8,15 @@ import {
   List,
   Button,
   Skeleton,
-  Input,
   Cascader,
   DatePicker,
-} from "antd";
+} from 'antd';
 
-import "../css/profile.css";
-import { connect } from "react-redux";
-import { getVetsProfile, postBookingProfile } from "../modules/reducers/bookingEffects";
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getVetsProfile, postBookingProfile } from '../modules/reducers/bookingEffects';
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -41,121 +42,137 @@ const tailFormItemLayout = {
 const config = {
   rules: [
     {
-      type: "object",
+      type: 'object',
       required: true,
-      message: "Please select time!",
+      message: 'Please select time!',
     },
   ],
 };
 const residences = [
   {
-    value: "Video-consultation",
-    label: "Video consultation",
+    value: 'Video-consultation',
+    label: 'Video consultation',
   },
   {
-    value: "Home-visit",
-    label: "Home visit",
+    value: 'Home-visit',
+    label: 'Home visit',
   },
   {
-    value: "Clinic-visit",
-    label: "Clinic visit",
+    value: 'Clinic-visit',
+    label: 'Clinic visit',
   },
 ];
+
 class Booking extends Component {
-  formRef = React.createRef();
-  state = {
-    visible: false,
-    mydata: {},
-    date:{},
-    triggered: false
-  };
-  onCancel = () => {
-    this.setVisible(false);
-    this.formRef.current.resetFields();
-  };
-  setVisible = (value) => {
-    this.setState({
-      visible: value,
-    });
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      visible: false,
+      mydata: {},
+      date: {},
+      triggered: false,
+    };
+    this.formRef = React.createRef();
+  }
+
   componentDidMount() {
-    this.props.onPageLoad();
-    if (this.props.profile.setProfile === false) {
-      notification["info"]({
-        message: `Vet profiles are loading......`,
-        description: this.props.profile.response,
+    const {
+      onPageLoad, profile,
+    } = this.props;
+    onPageLoad();
+    if (profile.setProfile === false) {
+      notification.info({
+        message: 'Vet profiles are loading......',
+        description: profile.response,
         duration: 6,
-        placement: "topLeft",
+        placement: 'topLeft',
       });
     }
   }
-  onApprov = (e, data) => {
+
+  onCancel() {
+    this.setVisible(false);
+    this.formRef.current.resetFields();
+  }
+
+  onApprov(e, data) {
+    const {
+      vet,
+    } = this.props;
     if (data !== undefined) {
-      let testData = this.props.vet.vets.filter((arr) => arr.id == data);
+      const testData = vet.vets.filter(arr => arr.id === data);
       this.setVisible(true);
       this.setState({
         mydata: testData[0],
       });
     }
-  };
-  onCreate =(value) => {
-    let data = {
-      appointment:{
-        booking_type:value.user_type[0],
-        date:this.state.date._d,
-        vet:this.state.mydata.id 
-      }
-    }
-    this.props.addBooking(data)
+  }
+
+  onCreate(value) {
+    const { date, mydata } = this.state;
+    const {
+      addBooking,
+    } = this.props;
+    const data = {
+      appointment: {
+        booking_type: value.user_type[0],
+        // eslint-disable-next-line no-underscore-dangle
+        date: date._d,
+        vet: mydata.id,
+      },
+    };
+    addBooking(data);
     this.setState({
       triggered: true,
     });
-    
   }
-  onOk = (value) => {
+
+  onOk(value) {
     this.setState({
-      date: value
+      date: value,
     });
   }
+
+  setVisible(value) {
+    this.setState({
+      visible: value,
+    });
+  }
+
   render() {
-    const { visible, mydata } = this.state;
+    const { visible, mydata, triggered } = this.state;
+    const {
+      vet, user, history,
+    } = this.props;
 
-    if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
-    ) {
-      notification["warning"]({
+    if (user.isLogged === undefined || user.isLogged === false) {
+      notification.warning({
         message:
-          "System resume failed, if it doesnt resume in a few, try to login again",
-        description: this.props.vet.response,
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: vet.response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      this.props.history.push("/auth");
+      history.push('/auth');
     }
-    if (this.state.triggered === true && this.props.vet.bookingSaved === true) {
-      notification["success"]({
-        message:
-          "Add a Booking",
-        description: this.props.vet.new_response,
+    if (triggered === true && vet.bookingSaved === true) {
+      notification.success({
+        message: 'Add a Booking',
+        description: vet.new_response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      
     }
-    if (this.state.triggered === true && this.props.vet.bookingSaved === false) {
-      notification["warning"]({
-        message:
-          "Add a Booking",
-        description: this.props.vet.new_response,
+    if (triggered === true && vet.bookingSaved === false) {
+      notification.warning({
+        message: 'Add a Booking',
+        description: vet.new_response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-     
+    }
 
-      
-    }
-   
     return (
       <div>
         <Card title="Booking Appointments">
@@ -164,8 +181,8 @@ class Booking extends Component {
               <List
                 className="demo-loadmore-list"
                 itemLayout="horizontal"
-                dataSource={this.props.vet.vets}
-                renderItem={(item) => (
+                dataSource={vet.vets}
+                renderItem={item => (
                   <List.Item>
                     <Skeleton
                       avatar
@@ -197,7 +214,7 @@ class Booking extends Component {
                     <Button
                       type="dashed"
                       danger
-                      onClick={(e) => this.onApprov(e, item.id)}
+                      onClick={e => this.onApprov(e, item.id)}
                     >
                       Book Appointment
                     </Button>
@@ -235,6 +252,7 @@ class Booking extends Component {
                   </Descriptions>
                 </div>
                 <Form
+                // eslint-disable-next-line react/jsx-props-no-spreading
                   {...formItemLayout}
                   ref={this.formRef}
                   name="time_related_controls"
@@ -247,9 +265,9 @@ class Booking extends Component {
                     label="Appointment Type"
                     rules={[
                       {
-                        type: "array",
+                        type: 'array',
                         required: true,
-                        message: "Please select your prefered appointment type",
+                        message: 'Please select your prefered appointment type',
                       },
                     ]}
                   >
@@ -259,12 +277,17 @@ class Booking extends Component {
                   <Form.Item
                     name="date-time-picker"
                     label="Schedule time"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...config}
                   >
-                    <DatePicker format="YYYY-MM-DD HH:mm:ss" showTime onOk={this.onOk}/>
-                    
+                    <DatePicker
+                      format="YYYY-MM-DD HH:mm:ss"
+                      showTime
+                      onOk={this.onOk}
+                    />
                   </Form.Item>
 
+                  {/* eslint-disable-next-line react/jsx-props-no-spreading */}
                   <Form.Item {...tailFormItemLayout}>
                     <Button
                       type="primary"
@@ -277,30 +300,92 @@ class Booking extends Component {
                 </Form>
               </Modal>
             </Card>
-            <div></div>
+            <div />
           </div>
         </Card>
       </div>
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile: state.profile,
-    vet: state.vet,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+  vet: state.vet,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageLoad: () => {
-      dispatch(getVetsProfile());
-    },
-    addBooking: (value) => {
-      dispatch(postBookingProfile(value))
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onPageLoad: () => {
+    dispatch(getVetsProfile());
+  },
+  addBooking: value => {
+    dispatch(postBookingProfile(value));
+  },
+});
+Booking.propTypes = {
+  profile: PropTypes.shape({
+    setProfile: PropTypes.bool,
+    response: PropTypes.string,
+    user: PropTypes.shape({
+      username: PropTypes.string,
+    }),
 
-export default connect(mapStateToProps, mapDispatchToProps)(Booking);
+  }),
+  vet: PropTypes.shape({
+    vets: PropTypes.shape({
+      first_name: PropTypes.string,
+      second_name: PropTypes.string,
+      tel_number: PropTypes.string,
+      location: PropTypes.string,
+      approved_status: PropTypes.string,
+      vet_number: PropTypes.string,
+      filter: PropTypes.func,
+
+    }),
+    response: PropTypes.string,
+    new_response: PropTypes.string,
+    bookingSaved: PropTypes.bool,
+
+  }),
+  onPageLoad: PropTypes.func,
+  addBooking: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: PropTypes.bool,
+    response: PropTypes.string,
+
+  }),
+};
+Booking.defaultProps = {
+  profile: PropTypes.shape({
+    setProfile: false,
+    response: '',
+  }),
+  vet: PropTypes.shape({
+    vets: PropTypes.shape({
+      first_name: '',
+      second_name: '',
+      tel_number: '',
+      location: '',
+      approved_status: false,
+      vet_number: '',
+
+    }),
+    response: '',
+  }),
+
+  onPageLoad: () => {},
+  addBooking: () => {},
+  history: '/auth',
+  user: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      username: '',
+      user_type: '',
+    }),
+    isLogged: false,
+    response: '',
+
+  }),
+
+};
+const sendBooking = connect(mapStateToProps, mapDispatchToProps)(Booking);
+export default sendBooking;

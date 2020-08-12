@@ -3,14 +3,14 @@ import {
   VET_ERROR,
   BOOKING_SUCCESS,
   BOOKING_ERROR,
-} from "../actions/actionTypes";
+} from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   vets: [],
-  response: "",
+  response: '',
   setProfile: false,
   bookingSaved: false,
-  new_response:''
+  new_response: '',
 };
 
 const allVets = (state = INITIAL_STATE, action) => {
@@ -32,16 +32,16 @@ const allVets = (state = INITIAL_STATE, action) => {
     case BOOKING_SUCCESS:
       return {
         ...state,
-        bookingSaved:true,
+        bookingSaved: true,
         new_response: action.payload.messages,
-        
+
       };
     case BOOKING_ERROR:
       return {
         ...state,
         bookingSaved: false,
         new_response: action.payload.errors,
-        
+
       };
 
     default:

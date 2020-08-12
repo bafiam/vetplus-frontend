@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Card,
   notification,
@@ -6,66 +6,72 @@ import {
   Descriptions,
   List,
   Skeleton,
-  Avatar,
-} from "antd";
-import "../css/profile.css";
-import { connect } from "react-redux";
+
+} from 'antd';
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   getUnapprovedVet,
   adminUpdateProfile,
-} from "../modules/reducers/profileEffects";
+} from '../modules/reducers/profileEffects';
 
 class AdminProfile extends Component {
-  
-
   componentDidMount() {
-    this.props.onPageLoad();
-    if (this.props.profile.setProfile === false) {
-      notification["info"]({
-        message: `Vet profiles are loading......`,
-        description: this.props.profile.response,
+    const {
+      onPageLoad, profile,
+    } = this.props;
+    onPageLoad();
+    if (profile.setProfile === false) {
+      notification.info({
+        message: 'Vet profiles are loading......',
+        description: profile.response,
         duration: 6,
-        placement: "topLeft",
+        placement: 'topLeft',
       });
     }
   }
-  onApprov = (e, data) => {
-    if (data !== undefined) {
-      this.props.updateApprov(data);
-      notification["success"]({
-        message: `Vet approved`,
-        description: this.props.profile.response,
-        duration: 6,
-        placement: "topLeft",
-      });
-      this.props.onPageLoad();
-    }
-  };
 
+  static onApprov(e, data) {
+    const {
+      onPageLoad, profile, updateApprov,
+    } = this.props;
+    if (data !== undefined) {
+      updateApprov(data);
+      notification.success({
+        message: 'Vet approved',
+        description: profile.response,
+        duration: 6,
+        placement: 'topLeft',
+      });
+      onPageLoad();
+    }
+  }
 
   render() {
-    if (this.props.profile.setProfile === true) {
-           
-    
-      notification["success"]({
-        message: `Vet profiles loaded.`,
-        description: this.props.profile.response,
+    const {
+      profile, user, history,
+    } = this.props;
+    if (profile.setProfile === true) {
+      notification.success({
+        message: 'Vet profiles loaded.',
+        description: profile.response,
         duration: 6,
-        placement: "topLeft",
+        placement: 'topLeft',
       });
     }
     if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
+      user.isLogged === undefined
+      || user.isLogged === false
     ) {
-      notification["warning"]({
+      notification.warning({
         message:
-          "System resume failed, if it doesnt resume in a few, try to login again",
-        description: this.props.user.response,
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: user.response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      this.props.history.push("/auth");
+      history.push('/auth');
     }
 
     return (
@@ -77,8 +83,8 @@ class AdminProfile extends Component {
                 <List
                   className="demo-loadmore-list"
                   itemLayout="horizontal"
-                  dataSource={this.props.profile.profile}
-                  renderItem={(item) => (
+                  dataSource={profile.profile}
+                  renderItem={item => (
                     <List.Item>
                       <Skeleton
                         avatar
@@ -110,7 +116,7 @@ class AdminProfile extends Component {
                       <Button
                         type="dashed"
                         danger
-                        onClick={(e) => this.onApprov(e, item.id)}
+                        onClick={e => this.onApprov(e, item.id)}
                       >
                         Approve
                       </Button>
@@ -126,22 +132,65 @@ class AdminProfile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile: state.profile,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageLoad: () => {
-      dispatch(getUnapprovedVet());
-    },
-    updateApprov: (value) => {
-      dispatch(adminUpdateProfile(value));
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onPageLoad: () => {
+    dispatch(getUnapprovedVet());
+  },
+  updateApprov: value => {
+    dispatch(adminUpdateProfile(value));
+  },
+});
+AdminProfile.propTypes = {
+  profile: PropTypes.shape({
+    setProfile: PropTypes.bool,
+    response: PropTypes.string,
+    user: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+    profile: PropTypes.shape({
+      first_name: PropTypes.string,
+      second_name: PropTypes.string,
+      tel_number: PropTypes.string,
+      location: PropTypes.string,
+      approved_status: PropTypes.string,
+      vet_number: PropTypes.string,
 
+    }),
+  }),
+  onPageLoad: PropTypes.func,
+  updateApprov: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      username: PropTypes.string,
+      user_type: PropTypes.string,
+    }),
+    isLogged: PropTypes.bool,
+    response: PropTypes.string,
+
+  }),
+};
+AdminProfile.defaultProps = {
+  profile: PropTypes.shape({
+    saveProfile: false,
+    response: '',
+  }),
+  onPageLoad: () => {},
+  updateApprov: () => {},
+  history: '/auth',
+  user: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      username: '',
+      user_type: '',
+    }),
+    isLogged: false,
+    response: '',
+
+  }),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(AdminProfile);

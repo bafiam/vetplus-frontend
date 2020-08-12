@@ -1,8 +1,12 @@
-import React, { Component } from "react";
-import { Button, Modal, Form, Input, Select, notification } from "antd";
-import "../css/profile.css";
-import { connect } from "react-redux";
-import {postUserProfile} from '../modules/reducers/profileEffects'
+import React, { Component } from 'react';
+import {
+  Button, Modal, Form, Input, Select, notification,
+} from 'antd';
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { postUserProfile } from '../modules/reducers/profileEffects';
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -33,43 +37,49 @@ const prefixSelector = (
     </Select>
   </Form.Item>
 );
+const formRef = React.createRef();
+
 class Editprofile extends Component {
-  formRef = React.createRef();
-  state = {
-    visible: false,
-  };
+  constructor(props) {
+    super(props);
 
-  onCreate = (values) => {
-    console.log("Received values of form: ", values);
+    this.state = {
+      visible: false,
+    };
+  }
+
+  onCreate(values) {
+    const { profile, onPageSubmit } = this.props;
     this.setVisible(true);
-    this.props.onPageSubmit(values)
-    if (this.props.profile.saveProfile === false) {
-      notification['info']({
-        message: `Saving profile data..`,
-        description:this.props.profile.response,
+    onPageSubmit(values);
+    if (profile.saveProfile === false) {
+      notification.info({
+        message: 'Saving profile data..',
+        description: profile.response,
         duration: 6,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
-      }
-    if (this.props.profile.saveProfile === true) {
-      notification['info']({
-        message: `profile saved successfully`,
-        description:this.props.profile.response,
+    }
+    if (profile.saveProfile === true) {
+      notification.info({
+        message: 'profile saved successfully',
+        description: profile.response,
         duration: 6,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
-      }
-  };
+    }
+  }
 
-  onCancel = () => {
+  onCancel() {
     this.setVisible(false);
-    this.formRef.current.resetFields();
-  };
-  setVisible = (value) => {
+    formRef.current.resetFields();
+  }
+
+  setVisible(value) {
     this.setState({
       visible: value,
     });
-  };
+  }
 
   render() {
     const { visible } = this.state;
@@ -93,8 +103,9 @@ class Editprofile extends Component {
           onOk={this.onCancel}
         >
           <Form
+          // eslint-disable-next-line react/jsx-props-no-spreading
             {...formItemLayout}
-            ref={this.formRef}
+            ref={formRef}
             name="normal_edit"
             className="edit-form"
             onFinish={this.onCreate}
@@ -106,7 +117,7 @@ class Editprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your first name!",
+                  message: 'Please input your first name!',
                 },
               ]}
             >
@@ -118,7 +129,7 @@ class Editprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your second name!",
+                  message: 'Please input your second name!',
                 },
               ]}
             >
@@ -131,11 +142,11 @@ class Editprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your phone number!",
+                  message: 'Please input your phone number!',
                 },
               ]}
             >
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+              <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item
               label="Location"
@@ -143,14 +154,17 @@ class Editprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your location!",
+                  message: 'Please input your location!',
                 },
               ]}
             >
               <Input placeholder="Location" />
             </Form.Item>
 
-            <Form.Item {...tailFormItemLayout}>
+            <Form.Item
+            // eslint-disable-next-line react/jsx-props-no-spreading
+              {...tailFormItemLayout}
+            >
               <Button
                 type="primary"
                 htmlType="submit"
@@ -165,18 +179,27 @@ class Editprofile extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile:state.profile
-  };
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+});
+const mapDispatchToProps = dispatch => ({
+  onPageSubmit: values => {
+    dispatch(postUserProfile(values));
+  },
+});
+Editprofile.propTypes = {
+  profile: PropTypes.shape({
+    saveProfile: PropTypes.bool,
+    response: PropTypes.string,
+  }),
+  onPageSubmit: PropTypes.func,
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageSubmit: (values) => {
-      dispatch(postUserProfile(values));
-    }
-  };
+Editprofile.defaultProps = {
+  profile: PropTypes.shape({
+    saveProfile: false,
+    response: '',
+  }),
+  onPageSubmit: () => {},
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(Editprofile);

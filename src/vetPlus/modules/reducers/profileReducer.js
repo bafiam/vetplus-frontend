@@ -1,16 +1,16 @@
 import {
   PROFILE_SUCCESS,
-  PROFILE_ERROR
-} from "../actions/actionTypes";
+  PROFILE_ERROR,
+} from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   profile: [],
-  response: "",
+  response: '',
   setProfile: false,
-  saveProfile:false
+  saveProfile: false,
 };
 
-const allProfile =(state = INITIAL_STATE, action) => {
+const allProfile = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROFILE_SUCCESS:
       return {
@@ -18,7 +18,7 @@ const allProfile =(state = INITIAL_STATE, action) => {
         profile: action.payload.profile,
         response: action.payload.messages,
         setProfile: true,
-        saveProfile:true
+        saveProfile: true,
       };
     case PROFILE_ERROR:
       return {
@@ -26,12 +26,11 @@ const allProfile =(state = INITIAL_STATE, action) => {
         profile: [],
         response: action.payload.errors,
         setProfile: false,
-        saveProfile:false
+        saveProfile: false,
       };
-    
 
     default:
       return state;
   }
 };
-export default allProfile
+export default allProfile;

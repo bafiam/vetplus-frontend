@@ -1,106 +1,127 @@
-import React, { Component } from "react";
-import { Layout, Menu, Avatar, notification, Button } from "antd";
-import "../css/layout.css";
+import React, { Component } from 'react';
+import {
+  Layout, Menu, Avatar, notification, Button,
+} from 'antd';
+import '../css/layout.css';
 import {
   DesktopOutlined,
   UserOutlined,
   ProfileOutlined,
   LogoutOutlined,
   UserSwitchOutlined,
-} from "@ant-design/icons";
-import { Route, Link, Switch } from "react-router-dom";
-import Dashbaord from "./dashbaord";
-import Profile from "./profile";
-import { connect } from "react-redux";
-import { getUser, logOutUser } from "../modules/reducers/authEffects";
-import Booking from "./booking";
-import UserBooking from "./userbookings";
-import VetBooking from "./vetbookings"
-const { Header, Content, Footer, Sider } = Layout;
-class PageLayout extends Component {
-  state = {
-    collapsed: false,
-  };
+} from '@ant-design/icons';
+import { Route, Link, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Dashbaord from './dashbaord';
+import Profile from './profile';
+import { getUser, logOutUser } from '../modules/reducers/authEffects';
+import sendBooking from './booking';
+import UserBooking from './userbookings';
+import VetBooking from './vetbookings';
 
-  onCollapse = (collapsed) => {
-    this.setState({ collapsed });
-  };
+const {
+  Header, Content, Footer, Sider,
+} = Layout;
+
+class PageLayout extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      collapsed: false,
+
+    };
+  }
+
   componentDidMount() {
-    let getToken = localStorage.getItem("vet_token");
+    const {
+      onPageUser,
+    } = this.props;
+    const getToken = localStorage.getItem('vet_token');
     setTimeout(() => {
-      this.props.onPageUser(getToken);
+      onPageUser(getToken);
     }, 2500);
   }
-  onClick = () => {
+
+  static onClick() {
+    const {
+      goodByeUser, user, history,
+    } = this.props;
     setTimeout(() => {
-      this.props.goodByeUser();
-      notification["success"]({
-        message: "Good bye",
-        description: this.props.user.response,
+      goodByeUser();
+      notification.success({
+        message: 'Good bye',
+        description: user.response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
     });
 
-    this.props.history.push("/auth");
-  };
+    history.push('/auth');
+  }
+
+  onCollapse(collapsed) {
+    this.setState({ collapsed });
+  }
+
   render() {
+    const {
+      user, history,
+    } = this.props;
     if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
+      user.isLogged === undefined
+      || user.isLogged === false
     ) {
-      notification["warning"]({
+      notification.warning({
         message:
-          "System resume failed, if it doesnt resume in a few, try to login again",
-        description: this.props.user.response,
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: user.response,
         duration: 20,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      this.props.history.push("/auth");
+      history.push('/auth');
     }
     let userBook;
-    let userAppointments;
-    let vetAppointments
-    if (this.props.user.isUser === true) {
+
+    let vetAppointments;
+    if (user.isUser === true) {
       userBook = (
-        <Menu.Item key="4" icon={<UserSwitchOutlined />}>
-          <Link to="/home/book">Book Appointment</Link>
-        </Menu.Item>
+        <div>
+          <Menu.Item key="4" icon={<UserSwitchOutlined />}>
+            <Link to="/home/book">Book Appointment</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<DesktopOutlined />}>
+            <Link to="/home/bookings">My Appointments</Link>
+          </Menu.Item>
+        </div>
       );
     }
-    if (this.props.user.isUser === true) {
-      userBook = (
-        <Menu.Item key="3" icon={<DesktopOutlined />}>
-          <Link to="/home/bookings">My Appointments</Link>
-        </Menu.Item>
-      );
-    }
-    if (this.props.user.isVet === true) {
+    if (user.isVet === true) {
       vetAppointments = (
         <Menu.Item key="3" icon={<DesktopOutlined />}>
           <Link to="/home/patients">Patients Appointments</Link>
         </Menu.Item>
       );
     }
+    const { collapsed } = this.state;
 
     return (
       <div>
-        <Layout style={{ minHeight: "100vh" }}>
+        <Layout style={{ minHeight: '100vh' }}>
           <Sider
             collapsible
-            collapsed={this.state.collapsed}
+            collapsed={collapsed}
             onCollapse={this.onCollapse}
           >
             <div className="logo" />
-            <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
               <Menu.Item key="1" icon={<UserOutlined />}>
                 <Link to="/home/dash">Dashbaord</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<ProfileOutlined />}>
                 <Link to="/home/profile">Profile</Link>
               </Menu.Item>
-              {userAppointments}
-
               {userBook}
               {vetAppointments}
             </Menu>
@@ -111,7 +132,7 @@ class PageLayout extends Component {
                 <div className="logo-name">vet plus</div>
                 <div className="avatar">
                   <Avatar
-                    style={{ backgroundColor: "#87d068", marginRight: 15 }}
+                    style={{ backgroundColor: '#87d068', marginRight: 15 }}
                     icon={<UserOutlined />}
                   />
                   <Button
@@ -124,7 +145,7 @@ class PageLayout extends Component {
                 </div>
               </div>
             </Header>
-            <Content style={{ margin: "0 16px" }}>
+            <Content style={{ margin: '0 16px' }}>
               <div
                 className="site-layout-background"
                 style={{ padding: 24, minHeight: 360 }}
@@ -132,13 +153,13 @@ class PageLayout extends Component {
                 <Switch>
                   <Route path="/home/dash" component={Dashbaord} />
                   <Route path="/home/profile" component={Profile} />
-                  <Route path="/home/book" component={Booking} />
+                  <Route path="/home/book" component={sendBooking} />
                   <Route path="/home/bookings" component={UserBooking} />
                   <Route path="/home/patients" component={VetBooking} />
                 </Switch>
               </div>
             </Content>
-            <Footer style={{ textAlign: "center" }}>
+            <Footer style={{ textAlign: 'center' }}>
               bafiam ©2020 Created by @bafiam-github
             </Footer>
           </Layout>
@@ -147,21 +168,39 @@ class PageLayout extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageUser: (values) => {
-      dispatch(getUser(values));
-    },
-    goodByeUser: () => {
-      dispatch(logOutUser());
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onPageUser: values => {
+    dispatch(getUser(values));
+  },
+  goodByeUser: () => {
+    dispatch(logOutUser());
+  },
+});
+PageLayout.propTypes = {
 
+  goodByeUser: PropTypes.func,
+  onPageUser: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: PropTypes.bool,
+    isUser: PropTypes.bool,
+    isAdmin: PropTypes.bool,
+    isVet: PropTypes.bool,
+    response: PropTypes.string,
+  }),
+};
+PageLayout.defaultProps = {
+
+  onPageUser: () => {},
+  goodByeUser: () => {},
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: false,
+    response: '',
+  }),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(PageLayout);

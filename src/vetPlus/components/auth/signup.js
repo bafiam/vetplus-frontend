@@ -1,18 +1,22 @@
-import React, { Component } from "react";
-import { Card } from "antd";
-import "../../css/auth.css";
-import { Form, Input, Tooltip, Button, Cascader, notification } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import { signupUser, getUser } from "../../modules/reducers/authEffects";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import {
+  Card, Form, Input, Tooltip, Button, Cascader, notification,
+} from 'antd';
+import '../../css/auth.css';
+
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { signupUser, getUser } from '../../modules/reducers/authEffects';
+
 const residences = [
   {
-    value: "user",
-    label: "user",
+    value: 'user',
+    label: 'user',
   },
   {
-    value: "vet",
-    label: "vet",
+    value: 'vet',
+    label: 'vet',
   },
   // {
   //   value: "admin",
@@ -51,50 +55,58 @@ const tailFormItemLayout = {
 };
 
 class Signup extends Component {
-
-  onFinish = (values) => {
-    console.log("Received values of form: ", values);
-    this.props.onsignupUser(values);
-  };
-  componentWillMount() {
-    let getToken = localStorage.getItem("vet_token");
+  componentDidMount() {
+    const {
+      onPageLoad,
+    } = this.props;
+    const getToken = localStorage.getItem('vet_token');
     setTimeout(() => {
-      this.props.onPageLoad(getToken);
+      onPageLoad(getToken);
     }, 2500);
   }
 
+  static onFinish(values) {
+    const {
+      onsignupUser,
+    } = this.props;
+    onsignupUser(values);
+  }
+
   render() {
+    const {
+      user, history,
+    } = this.props;
     if (
-      this.props.user.isLogged !== undefined &&
-      this.props.user.isLogged === true
+      user.isLogged !== undefined
+      && user.isLogged === true
     ) {
-      notification["success"]({
-        message: `welcome ${this.props.user.currentUser.username}`,
-        description: this.props.user.response,
+      notification.success({
+        message: `welcome ${user.currentUser.username}`,
+        description: user.response,
         duration: 15,
-        placement: "topRight",
+        placement: 'topRight',
       });
-      this.props.history.push("/home/dash");
+      history.push('/home/dash');
     }
     if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
+      user.isLogged === undefined
+      || user.isLogged === false
     ) {
-      if (typeof this.props.user.response === Array) {
-        this.props.user.response.forEach((element) => {
-          notification["warning"]({
-            message: "Registration failed",
+      if (user.response.length > 2) {
+        [user.response].forEach(element => {
+          notification.warning({
+            message: 'Registration failed',
             description: element,
             duration: 5,
-            placement: "bottomRight",
+            placement: 'bottomRight',
           });
         });
       } else {
-        notification["warning"]({
-          message: "Registration failed",
-          description: this.props.user.response,
+        notification.warning({
+          message: 'Registration failed',
+          description: user.response,
           duration: 5,
-          placement: "bottomRight",
+          placement: 'bottomRight',
         });
       }
     }
@@ -102,6 +114,7 @@ class Signup extends Component {
       <div>
         <Card type="inner" className="right-div-card" title="Sign up">
           <Form
+          // eslint-disable-next-line react/jsx-props-no-spreading
             {...formItemLayout}
             name="register"
             onFinish={this.onFinish}
@@ -112,12 +125,12 @@ class Signup extends Component {
               label="E-mail"
               rules={[
                 {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
+                  type: 'email',
+                  message: 'The input is not valid E-mail!',
                 },
                 {
                   required: true,
-                  message: "Please input your E-mail!",
+                  message: 'Please input your E-mail!',
                 },
               ]}
             >
@@ -128,9 +141,9 @@ class Signup extends Component {
               label="User Type"
               rules={[
                 {
-                  type: "array",
+                  type: 'array',
                   required: true,
-                  message: "Please select your prefered account type",
+                  message: 'Please select your prefered account type',
                 },
               ]}
             >
@@ -139,20 +152,21 @@ class Signup extends Component {
             <Form.Item
               name="password"
               label="Password"
-              dependencies={["password"]}
+              dependencies={['password']}
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!",
+                  message: 'Please input your password!',
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
-                    if (!value || getFieldValue("password").length > 8) {
+                    if (!value || getFieldValue('password').length > 8) {
+                      // eslint-disable-next-line prefer-promise-reject-errors
                       return Promise.resolve();
                     }
-
+                    // eslint-disable-next-line prefer-promise-reject-errors
                     return Promise.reject(
-                      "The password that you entered is too short!"
+                      'The password that you entered is too short!',
                     );
                   },
                 }),
@@ -164,21 +178,22 @@ class Signup extends Component {
             <Form.Item
               name="confirm"
               label="Confirm Password"
-              dependencies={["password"]}
+              dependencies={['password']}
               hasFeedback
               rules={[
                 {
                   required: true,
-                  message: "Please confirm your password!",
+                  message: 'Please confirm your password!',
                 },
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
-                    if (!value || getFieldValue("password") === value) {
+                    if (!value || getFieldValue('password') === value) {
                       return Promise.resolve();
                     }
 
+                    // eslint-disable-next-line  prefer-promise-reject-errors
                     return Promise.reject(
-                      "The two passwords that you entered do not match!"
+                      'The two passwords that you entered do not match!',
                     );
                   },
                 }),
@@ -188,25 +203,28 @@ class Signup extends Component {
             </Form.Item>
             <Form.Item
               name="nickname"
-              label={
+              label={(
                 <span>
                   Username&nbsp;
                   <Tooltip title="What do you want others to call you?">
                     <QuestionCircleOutlined />
                   </Tooltip>
                 </span>
-              }
+              )}
               rules={[
                 {
                   required: true,
-                  message: "Please input your nickname!",
+                  message: 'Please input your nickname!',
                   whitespace: true,
                 },
               ]}
             >
               <Input />
             </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
+            <Form.Item
+            // eslint-disable-next-line react/jsx-props-no-spreading
+              {...tailFormItemLayout}
+            >
               <Button type="primary" htmlType="submit">
                 Register
               </Button>
@@ -217,20 +235,42 @@ class Signup extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onsignupUser: (values) => {
-      dispatch(signupUser(values));
-    },
-    onPageLoad: (value) => {
-      dispatch(getUser(value));
-    },
-  };
+const mapDispatchToProps = dispatch => ({
+  onsignupUser: values => {
+    dispatch(signupUser(values));
+  },
+  onPageLoad: value => {
+    dispatch(getUser(value));
+  },
+});
+Signup.propTypes = {
+
+  onsignupUser: PropTypes.func,
+  onPageLoad: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: PropTypes.bool,
+    isUser: PropTypes.bool,
+    isAdmin: PropTypes.bool,
+    isVet: PropTypes.bool,
+    response: PropTypes.string,
+    currentUser: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+  }),
+};
+Signup.defaultProps = {
+
+  onsignupUser: () => {},
+  onPageLoad: () => {},
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: false,
+    response: '',
+  }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

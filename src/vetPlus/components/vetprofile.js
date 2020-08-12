@@ -1,59 +1,60 @@
-import React, { Component } from "react";
-import { Card, Avatar, Descriptions, notification, Tag, Divider} from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import "../css/profile.css";
-import { connect } from "react-redux";
-import {getVetProfile} from '../modules/reducers/profileEffects'
+import React, { Component } from 'react';
 import {
-  SyncOutlined
-  
-} from '@ant-design/icons';
-class VetProfile extends Component {
+  Card, Avatar, Descriptions, notification, Tag, Divider,
+} from 'antd';
+import { UserOutlined, SyncOutlined } from '@ant-design/icons';
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getVetProfile } from '../modules/reducers/profileEffects';
 
-  componentDidMount(){
-    this.props.onPageLoad()
-    if (this.props.profile.setProfile === false) {
-      notification['info']({
-        message: `Your profile is loading......`,
-        description:this.props.profile.response,
+class VetProfile extends Component {
+  componentDidMount() {
+    const { onPageLoad, profile } = this.props;
+    onPageLoad();
+    if (profile.setProfile === false) {
+      notification.info({
+        message: 'Your profile is loading......',
+        description: profile.response,
         duration: 6,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
     }
   }
+
   render() {
-    let isEmpty = "N/A"
-    let Acc_status 
-    if (this.props.profile.profile.approved_status === "Yes") {
-      Acc_status = <Tag color="success">Approved</Tag>
+    const isEmpty = 'N/A';
+    let accStatus;
+    const { profile, user, history } = this.props;
+    if (profile.profile.approved_status === 'Yes') {
+      accStatus = <Tag color="success">Approved</Tag>;
     }
-    if (this.props.profile.profile.approved_status === "No") {
-      Acc_status = <Tag icon={<SyncOutlined spin />} color="processing">
-      processing
-    </Tag>
+    if (profile.profile.approved_status === 'No') {
+      accStatus = (
+        <Tag icon={<SyncOutlined spin />} color="processing">
+          processing
+        </Tag>
+      );
     }
 
-    if (this.props.profile.setProfile === true) {
-      notification['success']({
-        message: `Your profile is ready ${this.props.user.currentUser.username}`,
-        description:this.props.profile.response,
+    if (profile.setProfile === true) {
+      notification.success({
+        message: `Your profile is ready ${user.currentUser.username}`,
+        description: profile.response,
         duration: 2,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
     }
 
-    if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
-    ) {
-      notification["warning"]({
+    if (user.isLogged === undefined || user.isLogged === false) {
+      notification.warning({
         message:
-          "System resume failed, if it doesnt resume in a few, try to login again",
-        description: this.props.user.response,
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: user.response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      this.props.history.push("/auth");
+      history.push('/auth');
     }
 
     return (
@@ -64,37 +65,39 @@ class VetProfile extends Component {
               <Card bordered={false} className="avatar-card">
                 <Avatar shape="square" size={64} icon={<UserOutlined />} />
                 <Divider orientation="left">Username</Divider>
-                <Tag color="red">{this.props.user.currentUser.username || this.props.profile.user.username} </Tag>
-                
+                <Tag color="red">
+                  {user.currentUser.username || profile.user.username}
+                  {' '}
+                </Tag>
               </Card>
             </div>
             <div>
               <Card type="inner" title="User profile">
                 <Descriptions layout="vertical">
-                <Descriptions.Item label="First name">
-                   <p>{this.props.profile.profile.first_name || isEmpty}</p> 
+                  <Descriptions.Item label="First name">
+                    <p>{profile.profile.first_name || isEmpty}</p>
                   </Descriptions.Item>
                   <Descriptions.Item label="Second name">
-                  {this.props.profile.profile.second_name || isEmpty }
+                    {profile.profile.second_name || isEmpty}
                   </Descriptions.Item>
                   <Descriptions.Item label="Telephone">
-                  {this.props.profile.profile.tel_number || isEmpty}
+                    {profile.profile.tel_number || isEmpty}
                   </Descriptions.Item>
                   <Descriptions.Item label="Location">
-                  {this.props.profile.profile.location || isEmpty}
+                    {profile.profile.location || isEmpty}
                   </Descriptions.Item>
                   <Descriptions.Item label="Vet number">
-                  {this.props.profile.profile.vet_number || isEmpty}
+                    {profile.profile.vet_number || isEmpty}
                   </Descriptions.Item>
-
                 </Descriptions>
               </Card>
               <Card type="inner" title="Acount Type">
-              <Tag color="geekblue">    {this.props.user.currentUser.user_type}</Tag>
-              <Divider orientation="left">Approval status</Divider>
-              {Acc_status || isEmpty}
-                
-    
+                <Tag color="geekblue">
+                  {' '}
+                  {user.currentUser.user_type}
+                </Tag>
+                <Divider orientation="left">Approval status</Divider>
+                {accStatus || isEmpty}
               </Card>
             </div>
           </div>
@@ -104,19 +107,60 @@ class VetProfile extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile:state.profile
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageLoad: () => {
-      dispatch(getVetProfile());
-    }
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onPageLoad: () => {
+    dispatch(getVetProfile());
+  },
+});
+VetProfile.propTypes = {
+  profile: PropTypes.shape({
+    setProfile: PropTypes.bool,
+    response: PropTypes.string,
+    user: PropTypes.shape({
+      username: PropTypes.string,
+    }),
+    profile: PropTypes.shape({
+      first_name: PropTypes.string,
+      second_name: PropTypes.string,
+      tel_number: PropTypes.string,
+      location: PropTypes.string,
+      approved_status: PropTypes.string,
+      vet_number: PropTypes.string,
 
+    }),
+  }),
+  onPageLoad: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      username: PropTypes.string,
+      user_type: PropTypes.string,
+    }),
+    isLogged: PropTypes.bool,
+    response: PropTypes.string,
+
+  }),
+};
+VetProfile.defaultProps = {
+  profile: PropTypes.shape({
+    saveProfile: false,
+    response: '',
+  }),
+  onPageLoad: () => {},
+  history: '/auth',
+  user: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      username: '',
+      user_type: '',
+    }),
+    isLogged: false,
+    response: '',
+
+  }),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(VetProfile);

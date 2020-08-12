@@ -1,64 +1,63 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
-  Card,
-  Descriptions,
-  List,
-  notification,
-  message,
-  Tag,
-  Col,
-  Row,
-  Divider
-} from "antd";
-import "../css/profile.css";
-import { connect } from "react-redux";
-import { getBookings } from "../modules/reducers/myBookingEffect";
+  Card, Descriptions, List, notification, message, Divider,
+} from 'antd';
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getBookings } from '../modules/reducers/myBookingEffect';
 
 class UserBooking extends Component {
   componentDidMount() {
-    this.props.onPageLoad();
-    if (this.props.bookings.loading === false) {
-      message.warning("Fetching Appointments");
+    const { bookings, onPageLoad } = this.props;
+    onPageLoad();
+    if (bookings.loading === false) {
+      message.warning('Fetching Appointments');
     }
-    if (this.props.bookings.loading === true) {
-      message.success(`${this.props.bookings.response}`);
+    if (bookings.loading === true) {
+      message.success(`${bookings.response}`);
     }
   }
 
   render() {
-    if (
-      this.props.user.isLogged === undefined ||
-      this.props.user.isLogged === false
-    ) {
-      notification["warning"]({
+    const { bookings, user, history } = this.props;
+    if (user.isLogged === undefined || user.isLogged === false) {
+      notification.warning({
         message:
-          "System resume failed, if it doesnt resume in a few, try to login again",
-        description: this.props.user.response,
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: user.response,
         duration: 10,
-        placement: "bottomRight",
+        placement: 'bottomRight',
       });
-      this.props.history.push("/auth");
+      history.push('/auth');
     }
     let appointments;
-    if (this.props.bookings.Appointments.length <= 0) {
+    if (bookings.Appointments.length <= 0) {
       appointments = (
         <Card title="Appointments booked by user" style={{ width: 300 }}>
           <p>You have no pending or upcomming appointments </p>
         </Card>
       );
     }
-    if (this.props.bookings.Appointments.length > 0) {
+    if (bookings.Appointments.length > 0) {
       appointments = (
-        <Card >
+        <Card>
           <List
             itemLayout="horizontal"
-            dataSource={this.props.bookings.Appointments}
-            renderItem={(item) => (
+            dataSource={bookings.Appointments}
+            renderItem={item => (
               <div>
                 <Descriptions
                   layout="vertical"
                   bordered
-                  column={{ xxl: 6, xl: 6, lg: 5, md: 3, sm: 2, xs: 1 }}
+                  column={{
+                    xxl: 6,
+                    xl: 6,
+                    lg: 5,
+                    md: 3,
+                    sm: 2,
+                    xs: 1,
+                  }}
                 >
                   <Descriptions.Item label="Consultation time">
                     {item.date}
@@ -102,20 +101,73 @@ class UserBooking extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile: state.profile,
-    bookings: state.bookings,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+  bookings: state.bookings,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageLoad: () => {
-      dispatch(getBookings());
-    },
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  onPageLoad: () => {
+    dispatch(getBookings());
+  },
+});
+UserBooking.propTypes = {
+  bookings: PropTypes.shape({
+    Appointments: PropTypes.shape({
+      date: PropTypes.string,
+      length: PropTypes.func,
+      booking_type: PropTypes.string,
+      profile: PropTypes.shape({
+        first_name: PropTypes.string,
+      }),
+      vet: PropTypes.shape({
+        first_name: PropTypes.string,
+        second_name: PropTypes.string,
+        tel_number: PropTypes.string,
+        vet_number: PropTypes.string,
+        location: PropTypes.string,
+      }),
+    }),
+    response: PropTypes.string,
+    loading: PropTypes.bool,
 
+  }),
+
+  onPageLoad: PropTypes.func,
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: PropTypes.bool,
+    response: PropTypes.string,
+  }),
+};
+UserBooking.defaultProps = {
+  bookings: PropTypes.shape({
+    Appointments: PropTypes.shape({
+      date: '',
+      length: () => {},
+      booking_type: '',
+      profile: PropTypes.shape({
+        first_name: '',
+      }),
+      vet: PropTypes.shape({
+        first_name: '',
+        second_name: '',
+        tel_number: '',
+        vet_number: '',
+        location: '',
+      }),
+    }),
+    response: '',
+    loading: false,
+
+  }),
+
+  onPageLoad: () => {},
+  history: PropTypes.string,
+  user: PropTypes.shape({
+    isLogged: false,
+    response: '',
+  }),
+};
 export default connect(mapStateToProps, mapDispatchToProps)(UserBooking);

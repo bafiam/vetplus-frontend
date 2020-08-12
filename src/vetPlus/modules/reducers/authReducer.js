@@ -1,11 +1,11 @@
-import { 
-  LOGIN_USER_SUCCESS, 
+import {
+  LOGIN_USER_SUCCESS,
   LOGIN_USER_ERROR,
   MAP_USER_SUCCESS,
   MAP_USER_ERROR,
-  LOGOUT_USER_SUCCESS
+  LOGOUT_USER_SUCCESS,
 
-  } from "./../actions/actionTypes";
+} from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   currentUser: [],
@@ -13,9 +13,38 @@ const INITIAL_STATE = {
   isUser: false,
   isAdmin: false,
   isVet: false,
-  response: []
+  response: [],
 };
+const setUser = data => {
+  if (data !== undefined) {
+    if (data === 'user') {
+      return true;
+    }
+    return false;
+  }
 
+  return false;
+};
+const setAdmin = data => {
+  if (data !== undefined) {
+    if (data === 'admin') {
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+};
+const setVet = data => {
+  if (data !== undefined) {
+    if (data === 'vet') {
+      return true;
+    }
+    return false;
+  }
+
+  return false;
+};
 const authenticateUser = (user = INITIAL_STATE, action) => {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
@@ -26,8 +55,8 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isLogged: true,
         isUser: setUser(action.payload.user.user_type),
         isAdmin: setAdmin(action.payload.user.user_type),
-        isVet: setVet(action.payload.user.user_type)
-       
+        isVet: setVet(action.payload.user.user_type),
+
       };
     case LOGIN_USER_ERROR:
       return {
@@ -48,7 +77,7 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isUser: setUser(action.payload.user.user_type),
         isAdmin: setAdmin(action.payload.user.user_type),
         isVet: setVet(action.payload.user.user_type),
-        
+
       };
     case MAP_USER_ERROR:
       return {
@@ -68,45 +97,11 @@ const authenticateUser = (user = INITIAL_STATE, action) => {
         isUser: false,
         isAdmin: false,
         isVet: false,
-        response: action.payload.messages
+        response: action.payload.messages,
       };
-    
 
     default:
       return user;
-  }
-};
-const setUser = (data) => {
-  if (data !== undefined)
-    if (data === "user") {
-      return true;
-    } else {
-      return false;
-    }
-  else {
-    return false;
-  }
-};
-const setAdmin = (data) => {
-  if (data !== undefined)
-    if (data === "admin") {
-      return true;
-    } else {
-      return false;
-    }
-  else {
-    return false;
-  }
-};
-const setVet = (data) => {
-  if (data !== undefined)
-    if (data === "vet") {
-      return true;
-    } else {
-      return false;
-    }
-  else {
-    return false;
   }
 };
 

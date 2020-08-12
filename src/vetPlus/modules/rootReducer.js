@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux'
-import authenticateUser from './reducers/authReducer'
-import allProfile from './reducers/profileReducer'
-import allVets from './reducers/bookingReducer'
-import myBookings from './reducers/myBookingReducer'
+import { combineReducers } from 'redux';
+import authenticateUser from './reducers/authReducer';
+import allProfile from './reducers/profileReducer';
+import allVets from './reducers/bookingReducer';
+import myBookings from './reducers/myBookingReducer';
+
 const rootReducer = combineReducers({
-  user :authenticateUser,
+  user: authenticateUser,
   profile: allProfile,
   vet: allVets,
-  bookings:myBookings
-})
+  bookings: myBookings,
+});
 
-export default rootReducer
+export default rootReducer;

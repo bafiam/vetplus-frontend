@@ -1,8 +1,12 @@
-import React, { Component } from "react";
-import { Button, Modal, Form, Input, notification , Select} from "antd";
-import "../css/profile.css";
-import { connect } from "react-redux";
-import {postVetProfile} from '../modules/reducers/profileEffects'
+import React, { Component } from 'react';
+import {
+  Button, Modal, Form, Input, notification, Select,
+} from 'antd';
+import '../css/profile.css';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { postVetProfile } from '../modules/reducers/profileEffects';
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -27,65 +31,67 @@ const tailFormItemLayout = {
 };
 const { Option } = Select;
 const prefixSelector = (
-  
-  <Form.Item 
-  name="prefix"
-  noStyle
-  rules={[
-    {
-      required: true,
-      message: "Please input your phone prefix!",
-    },
-  ]}
+
+  <Form.Item
+    name="prefix"
+    noStyle
+    rules={[
+      {
+        required: true,
+        message: 'Please input your phone prefix!',
+      },
+    ]}
   >
-  <Select style={{ width: 90 }}>
-    <Option value="254">+254</Option>
-    
-  </Select>
-</Form.Item>
- 
+    <Select style={{ width: 90 }}>
+      <Option value="254">+254</Option>
+
+    </Select>
+  </Form.Item>
+
 );
+const formRef = React.createRef();
 
 class EditVetprofile extends Component {
-  formRef = React.createRef();
-  state = {
-    visible: false,
-  };
+  constructor(props) {
+    super(props);
 
-  onCreate = (values) => {
-    console.log("Received values of form: ",  this.props.user.user);
-    this.props.onPageSubmit(values)
+    this.state = {
+      visible: false,
+    };
+  }
+
+  onCreate(values) {
+    const { profile, onPageSubmit } = this.props;
+    onPageSubmit(values);
     this.setVisible(true);
-    if (this.props.profile.saveProfile === false) {
-      notification['info']({
-        message: `Saving profile data..`,
-        description:this.props.profile.response,
+    if (profile.saveProfile === false) {
+      notification.info({
+        message: 'Saving profile data..',
+        description: profile.response,
         duration: 6,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
-      }
-    if (this.props.profile.saveProfile === true) {
-      notification['success']({
-        message: `profile saved successfully`,
-        description:this.props.profile.response,
+    }
+    if (profile.saveProfile === true) {
+      notification.success({
+        message: 'profile saved successfully',
+        description: profile.response,
         duration: 6,
-        placement:"topLeft"
+        placement: 'topLeft',
       });
-      }
+    }
+  }
 
-
-  };
-
-  onCancel = () => {
+  onCancel() {
     this.setVisible(false);
-    this.formRef.current.resetFields();
-  };
-  setVisible = (value) => {
+    formRef.current.resetFields();
+  }
+
+  setVisible(value) {
     this.setState({
       visible: value,
     });
-  };
- 
+  }
 
   render() {
     const { visible } = this.state;
@@ -109,8 +115,9 @@ class EditVetprofile extends Component {
           onOk={this.onCancel}
         >
           <Form
-          {...formItemLayout}
-            ref={this.formRef}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+            {...formItemLayout}
+            ref={formRef}
             name="normal_edit"
             className="edit-form"
             onFinish={this.onCreate}
@@ -122,7 +129,7 @@ class EditVetprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your first name!",
+                  message: 'Please input your first name!',
                 },
               ]}
             >
@@ -134,7 +141,7 @@ class EditVetprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your second name!",
+                  message: 'Please input your second name!',
                 },
               ]}
             >
@@ -143,12 +150,12 @@ class EditVetprofile extends Component {
             <Form.Item
 
               name="phone"
-             label="Phone Number"
+              label="Phone Number"
               wrapperCol={{ span: 128 }}
               rules={[
                 {
                   required: true,
-                  message: "Please input your phone number!",
+                  message: 'Please input your phone number!',
                 },
               ]}
             >
@@ -160,7 +167,7 @@ class EditVetprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your location!",
+                  message: 'Please input your location!',
                 },
               ]}
             >
@@ -173,13 +180,13 @@ class EditVetprofile extends Component {
               rules={[
                 {
                   required: true,
-                  message: "Please input your licence number!",
+                  message: 'Please input your licence number!',
                 },
               ]}
             >
               <Input placeholder="Licence number" />
             </Form.Item>
-
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Form.Item {...tailFormItemLayout}>
               <Button
                 type="primary"
@@ -195,21 +202,30 @@ class EditVetprofile extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state.user,
-    profile:state.profile
-  };
+const mapStateToProps = state => ({
+  user: state.user,
+  profile: state.profile,
+});
+
+const mapDispatchToProps = dispatch => ({
+  onPageSubmit: values => {
+    dispatch(postVetProfile(values));
+  },
+});
+EditVetprofile.propTypes = {
+  profile: PropTypes.shape({
+    saveProfile: PropTypes.bool,
+    response: PropTypes.string,
+  }),
+  onPageSubmit: PropTypes.func,
+
 };
+EditVetprofile.defaultProps = {
+  profile: PropTypes.shape({
+    saveProfile: false,
+    response: '',
+  }),
+  onPageSubmit: () => {},
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onPageSubmit: (values) => {
-      dispatch(postVetProfile(values));
-    }
-  };
 };
-
-
 export default connect(mapStateToProps, mapDispatchToProps)(EditVetprofile);
-
