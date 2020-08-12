@@ -9,8 +9,20 @@ import {
   VET_SUCCESS,
   VET_ERROR, 
   BOOKING_SUCCESS,
-  BOOKING_ERROR
+  BOOKING_ERROR,
+  GET_BOOKING_SUCCESS,
+  GET_BOOKING_ERROR
 } from './actionTypes'
+
+export const GetBookSuccess = (profileObj) => ({
+  type: GET_BOOKING_SUCCESS,
+  payload: profileObj
+})
+
+export const GetBookError = (err) => ({
+  type: GET_BOOKING_ERROR,
+  payload: err
+})
 
 export const BookSuccess = (profileObj) => ({
   type: BOOKING_SUCCESS,

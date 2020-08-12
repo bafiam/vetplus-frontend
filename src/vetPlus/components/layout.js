@@ -5,16 +5,17 @@ import {
   DesktopOutlined,
   UserOutlined,
   ProfileOutlined,
-  LogoutOutlined, 
-  UserSwitchOutlined
+  LogoutOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import { Route, Link, Switch } from "react-router-dom";
 import Dashbaord from "./dashbaord";
 import Profile from "./profile";
 import { connect } from "react-redux";
 import { getUser, logOutUser } from "../modules/reducers/authEffects";
-import Booking from "./booking"
-import UserBooking from './userbookings'
+import Booking from "./booking";
+import UserBooking from "./userbookings";
+import VetBooking from "./vetbookings"
 const { Header, Content, Footer, Sider } = Layout;
 class PageLayout extends Component {
   state = {
@@ -57,15 +58,29 @@ class PageLayout extends Component {
       });
       this.props.history.push("/auth");
     }
-    let userBook
+    let userBook;
+    let userAppointments;
+    let vetAppointments
     if (this.props.user.isUser === true) {
-
-      userBook = <Menu.Item key="4" icon={<UserSwitchOutlined />}>
-        <Link to="/home/book">
-          Book Appointment
-        </Link>
-                
-              </Menu.Item>
+      userBook = (
+        <Menu.Item key="4" icon={<UserSwitchOutlined />}>
+          <Link to="/home/book">Book Appointment</Link>
+        </Menu.Item>
+      );
+    }
+    if (this.props.user.isUser === true) {
+      userBook = (
+        <Menu.Item key="3" icon={<DesktopOutlined />}>
+          <Link to="/home/bookings">My Appointments</Link>
+        </Menu.Item>
+      );
+    }
+    if (this.props.user.isVet === true) {
+      vetAppointments = (
+        <Menu.Item key="3" icon={<DesktopOutlined />}>
+          <Link to="/home/patients">Patients Appointments</Link>
+        </Menu.Item>
+      );
     }
 
     return (
@@ -84,12 +99,10 @@ class PageLayout extends Component {
               <Menu.Item key="2" icon={<ProfileOutlined />}>
                 <Link to="/home/profile">Profile</Link>
               </Menu.Item>
+              {userAppointments}
 
-              <Menu.Item key="3" icon={<DesktopOutlined />}>
-              <Link to="/home/bookings">My Appointments</Link>
-                
-              </Menu.Item>
               {userBook}
+              {vetAppointments}
             </Menu>
           </Sider>
           <Layout className="site-layout">
@@ -98,10 +111,16 @@ class PageLayout extends Component {
                 <div className="logo-name">vet plus</div>
                 <div className="avatar">
                   <Avatar
-                    style={{ backgroundColor: "#87d068", marginRight:15 }}
+                    style={{ backgroundColor: "#87d068", marginRight: 15 }}
                     icon={<UserOutlined />}
                   />
-                  <Button onClick={() => this.onClick()} shape="round" icon={<LogoutOutlined />}>Logout</Button>
+                  <Button
+                    onClick={() => this.onClick()}
+                    shape="round"
+                    icon={<LogoutOutlined />}
+                  >
+                    Logout
+                  </Button>
                 </div>
               </div>
             </Header>
@@ -115,6 +134,7 @@ class PageLayout extends Component {
                   <Route path="/home/profile" component={Profile} />
                   <Route path="/home/book" component={Booking} />
                   <Route path="/home/bookings" component={UserBooking} />
+                  <Route path="/home/patients" component={VetBooking} />
                 </Switch>
               </div>
             </Content>

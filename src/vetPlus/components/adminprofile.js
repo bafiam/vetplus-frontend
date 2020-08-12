@@ -73,7 +73,7 @@ class AdminProfile extends Component {
         <Card title="Admin">
           <div className="site-card-border-less-wrapper">
             <div>
-              <Card type="inner" title="Admin profile">
+              <Card type="inner" title="Vets profile waiting approval">
                 <List
                   className="demo-loadmore-list"
                   itemLayout="horizontal"

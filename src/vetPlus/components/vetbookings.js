@@ -5,16 +5,13 @@ import {
   List,
   notification,
   message,
-  Tag,
-  Col,
-  Row,
   Divider
 } from "antd";
 import "../css/profile.css";
 import { connect } from "react-redux";
-import { getBookings } from "../modules/reducers/myBookingEffect";
+import { getVetBookings } from "../modules/reducers/myBookingEffect";
 
-class UserBooking extends Component {
+class VetBooking extends Component {
   componentDidMount() {
     this.props.onPageLoad();
     if (this.props.bookings.loading === false) {
@@ -42,8 +39,8 @@ class UserBooking extends Component {
     let appointments;
     if (this.props.bookings.Appointments.length <= 0) {
       appointments = (
-        <Card title="Appointments booked by user" style={{ width: 300 }}>
-          <p>You have no pending or upcomming appointments </p>
+        <Card title="Appointments booked by patients" style={{ width: 300 }}>
+          <p>You have no pending or upcomming appointments requests </p>
         </Card>
       );
     }
@@ -66,23 +63,20 @@ class UserBooking extends Component {
                   <Descriptions.Item label="Consultation type">
                     {item.booking_type}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Patient name">
-                    {item.profile.first_name}
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Vet first name">
+                  <Descriptions.Item label="Vet name">
                     {item.vet.first_name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Vet second name">
-                    {item.vet.second_name}
+                  <Descriptions.Item label="Patient first name">
+                    {item.profile.first_name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Vet phone-number">
-                    {item.vet.tel_number}
+                  <Descriptions.Item label="Patient second name">
+                    {item.profile.second_name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Vet license no">
-                    {item.vet.vet_number}
+                  <Descriptions.Item label="Patient phone-number">
+                    {item.profile.tel_number}
                   </Descriptions.Item>
-                  <Descriptions.Item label="consultation location">
-                    {item.vet.location}
+                  <Descriptions.Item label="Patient location">
+                    {item.profile.location}
                   </Descriptions.Item>
                 </Descriptions>
                 <Divider>Consultation</Divider>
@@ -113,9 +107,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onPageLoad: () => {
-      dispatch(getBookings());
+      dispatch(getVetBookings());
     },
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserBooking);
+export default connect(mapStateToProps, mapDispatchToProps)(VetBooking);
