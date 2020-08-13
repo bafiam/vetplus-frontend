@@ -35,7 +35,7 @@
 
 ## About The Project
 
-This project is a Appointment Booking System built with React and Redux. It consumes an API and offer a user interaction interface that mimic a booking system allowing diffrent user to access the API resources.
+This project is a Appointment Booking System built with React and Redux. It consumes an API and offer a user interaction interface that mimic a booking system allowing different user to access the API resources.
 
 Feature summary :
 
