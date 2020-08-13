@@ -1,68 +1,149 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Contributor][contributor-shield]][contributor-url]
+[![Issues][issues-shield]][issues-url]
+<br />
 
-## Available Scripts
+<p align="center">
+  <h1 align="center">Veterinary Clinic - Appointment Booking System Based on React and Redux </h1>
+  <p align="center">
+    React/Redux
+    <br />
+    <a href="https://github.com/bafiam/vetplus-frontend.git"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    ·
+    <a href="https://github.com/bafiam/vetplus-frontend/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/bafiam/vetplus-frontend/issues">Request Feature</a>
+  </p>
+</p>
 
-In the project directory, you can run:
+<!-- TABLE OF CONTENTS -->
 
-### `yarn start`
+## Table of Contents
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [About the Project](#about-the-project)
+- [Screenshots](#screenshots)
+- [Prerequisites Installations](#prerequisites-installations)
+- [Technology used](#technology-used)
+- [Usage/Getting Started](#how-to-Use)
+- [Live Version](#live-version)
+- [Roadmap](#roadmap)
+- [License](#license)
+- [Authors](#authors)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+<!-- ABOUT THE PROJECT -->
 
-### `yarn test`
+## About The Project
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project is a Appointment Booking System built with React and Redux. It consumes an API and offer a user interaction interface that mimic a booking system allowing diffrent user to access the API resources.
 
-### `yarn build`
+Feature summary :
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Interface Authentication.
+- Vet approval interface for the admin.
+- Profile interface for both patients and vets.
+- View past and upcomming appointments by the patient.
+- View booked appoitment request by the vet.
+- Book an appoitment interface available only by patients
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Detailed project description can be found here [Back end](https://github.com/bafiam/vetplus-backend)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Helpers
 
-### `yarn eject`
+Login as admin:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- username: admin
+- password: 123456789
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Screenshots
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Book an Appointment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+<img src="./screenshots/book-appo.png" alt="screenshot1"/>
 
-## Learn More
+#### Vet Profile
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<img src="./screenshots/create-profile.png" alt="screenshot1"/>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Patient Appointments
 
-### Code Splitting
+<img src="./screenshots/my-appointments.png" alt="screenshot1"/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+#### Admin Account Approval
 
-### Analyzing the Bundle Size
+<img src="./screenshots/admin.png" alt="screenshot1"/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Prerequisites Installations
 
-### Making a Progressive Web App
+<p>If you want a copy of this project running on your machine you have to install:</p>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+- <a href="https://nodejs.org/en/">Node.js (v5. 2.0 or greater)</a>
+- <a href="https://git-scm.com/downloads">Git version control system</a>
 
-### Advanced Configuration
+## Technology used
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+- Node.js
+- React
+- React-DOM
+- React-Create-App
+- Redux
+- Antd
+- npm
+- CSS
+- ES6
+- React-thunk
 
-### Deployment
+## Usage/Getting Started
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Once you have installed the required package shown on the [Prerequisites Installations](#required-installations), proceed with the following steps
 
-### `yarn build` fails to minify
+Clone the Repository,
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```Shell
+your@pc:~$ git clone https://github.com/bafiam/vetplus-frontend
+```
+
+Move into the cloned folder
+
+```Shell
+your@pc:~$ cd vetplus-frontend
+```
+
+Get the dependencies needed for the app
+
+```Shell
+your@pc:~$ npm install
+```
+
+Start the server and use the app
+
+```Shell
+your@pc:~$ npm run start
+```
+
+## Live Version
+
+This is the link to the live preview. Feel free to visit.<br>
+[Vetplus]()<br>
+
+<!-- ROADMAP -->
+
+## Roadmap
+
+See the [open issues](https://github.com/bafiam/vetplus-frontend/issues) for a list of proposed features (and known issues).
+
+<!-- CONTACT -->
+
+## Authors
+
+Stephen Gumba
+
+- [Github profile](https://github.com/bafiam)
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[contributor-shield]: https://img.shields.io/badge/Contributors-1-%2300ff00
+[contributor-url]: https://github.com/bafiam/vetplus-frontend/graphs/contributors
+[issues-shield]: https://img.shields.io/badge/issues-0-%2300ff00
+[issues-url]: https://github.com/bafiam/vetplus-frontend/issues/
