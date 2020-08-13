@@ -112,13 +112,13 @@ your@pc:~$ cd vetplus-frontend
 Get the dependencies needed for the app
 
 ```Shell
-your@pc:~$ npm install
+your@pc:~$ yarn install
 ```
 
 Start the server and use the app
 
 ```Shell
-your@pc:~$ npm run start
+your@pc:~$ yarn start
 ```
 
 ## Live Version
