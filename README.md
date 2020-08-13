@@ -124,7 +124,7 @@ your@pc:~$ npm run start
 ## Live Version
 
 This is the link to the live preview. Feel free to visit.<br>
-[Vetplus]()<br>
+[Vetplus](https://trusting-tereshkova-822a5f.netlify.app/)<br>
 
 <!-- ROADMAP -->
 
