@@ -3,7 +3,6 @@ import {
   Card,
   Descriptions,
   List,
-  notification,
   message,
   Divider,
 } from 'antd';
@@ -34,13 +33,6 @@ class VetBooking extends Component {
       user.isLogged === undefined
       || user.isLogged === false
     ) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: user.response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
       history.push('/auth');
     }
     let appointments;

@@ -34,7 +34,6 @@ class Login extends Component {
         notification.success({
           message: `welcome ${user.currentUser.username}`,
           description: user.response,
-          duration: 15,
           placement: 'topRight',
         });
         history.push('/home/dash');
@@ -43,8 +42,7 @@ class Login extends Component {
         notification.warning({
           message: 'Login failed',
           description: user.response,
-          duration: 7,
-          placement: 'bottomRight',
+          placement: 'bottomLeft',
         });
       }
     }

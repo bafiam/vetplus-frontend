@@ -88,7 +88,7 @@ class Signup extends Component {
       notification.success({
         message: `welcome ${user.currentUser.username}`,
         description: user.response,
-        duration: 5,
+
         placement: 'topRight',
       });
       history.push('/home/dash');
@@ -97,16 +97,16 @@ class Signup extends Component {
       if (Array.isArray(user.response)) {
         [...user.response].forEach(element => {
           notification.warning({
-            message: 'Registration failed nn',
+            message: 'Registration failed',
             description: element,
-            placement: 'bottomRight',
+            placement: 'bottomLeft',
           });
         });
       } else {
         notification.warning({
           message: 'Registration failed',
           description: user.response,
-          placement: 'bottomRight',
+          placement: 'bottomLeft',
         });
       }
     }

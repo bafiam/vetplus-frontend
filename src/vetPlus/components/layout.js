@@ -200,7 +200,8 @@ PageLayout.propTypes = {
     isUser: PropTypes.bool,
     isAdmin: PropTypes.bool,
     isVet: PropTypes.bool,
-    response: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    response: PropTypes.any,
   }),
 };
 PageLayout.defaultProps = {

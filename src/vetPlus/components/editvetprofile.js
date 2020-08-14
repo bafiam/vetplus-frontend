@@ -72,7 +72,7 @@ class EditVetprofile extends Component {
         message: 'Saving profile data..',
         description: profile.response,
         duration: 6,
-        placement: 'topLeft',
+        placement: 'bottomLeft',
       });
     }
     if (profile.saveProfile === true) {
@@ -80,7 +80,7 @@ class EditVetprofile extends Component {
         message: 'profile saved successfully',
         description: profile.response,
         duration: 6,
-        placement: 'topLeft',
+        placement: 'bottomLeft',
       });
     }
   }

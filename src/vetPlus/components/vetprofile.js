@@ -42,18 +42,11 @@ class VetProfile extends Component {
         message: `Your profile is ready ${user.currentUser.username}`,
         description: profile.response,
         duration: 2,
-        placement: 'topLeft',
+        placement: 'bottomLeft',
       });
     }
 
     if (user.isLogged === undefined || user.isLogged === false) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: user.response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
       history.push('/auth');
     }
 
@@ -124,7 +117,7 @@ VetProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.shape({
+    profile: PropTypes.shape(PropTypes.objectOf({
       first_name: PropTypes.string,
       second_name: PropTypes.string,
       tel_number: PropTypes.string,
@@ -132,10 +125,10 @@ VetProfile.propTypes = {
       approved_status: PropTypes.string,
       vet_number: PropTypes.string,
 
-    }),
+    })),
   }),
   onPageLoad: PropTypes.func,
-  history: PropTypes.objectOf(PropTypes.any),
+  history: PropTypes.func,
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: PropTypes.string,
@@ -152,7 +145,7 @@ VetProfile.defaultProps = {
     response: '',
   }),
   onPageLoad: () => {},
-  history: '/auth',
+  history: PropTypes.func,
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: '',

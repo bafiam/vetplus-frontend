@@ -18,8 +18,8 @@ class UserProfile extends Component {
       notification.info({
         message: 'Your profile is loading......',
         description: profile.response,
-        duration: 6,
-        placement: 'topLeft',
+
+        placement: 'bottomLeft',
       });
     }
   }
@@ -33,21 +33,14 @@ class UserProfile extends Component {
       notification.success({
         message: `Your profile is ready ${user.currentUser.username}`,
         description: profile.response,
-        duration: 2,
-        placement: 'topLeft',
+
+        placement: 'bottomLeft',
       });
     }
     if (
       user.isLogged === undefined
       || user.isLogged === false
     ) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: user.response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
       history.push('/auth');
     }
 

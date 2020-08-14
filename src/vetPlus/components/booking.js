@@ -83,17 +83,9 @@ class Booking extends Component {
 
   componentDidMount() {
     const {
-      onPageLoad, profile,
+      onPageLoad,
     } = this.props;
     onPageLoad();
-    if (profile.setProfile === false) {
-      notification.info({
-        message: 'Vet profiles are loading......',
-        description: profile.response,
-        duration: 6,
-        placement: 'topLeft',
-      });
-    }
   }
 
   onCancel() {
@@ -152,13 +144,6 @@ class Booking extends Component {
     } = this.props;
 
     if (user.isLogged === undefined || user.isLogged === false) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: vet.response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
       history.push('/auth');
     }
     if (triggered === true && vet.bookingSaved === true) {
@@ -171,7 +156,7 @@ class Booking extends Component {
     }
     if (triggered === true && vet.bookingSaved === false) {
       notification.warning({
-        message: 'Add a Booking',
+        message: 'Error adding Booking',
         description: vet.new_response,
         duration: 10,
         placement: 'bottomRight',

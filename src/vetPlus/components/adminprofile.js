@@ -25,17 +25,9 @@ class AdminProfile extends Component {
 
   componentDidMount() {
     const {
-      onPageLoad, profile,
+      onPageLoad,
     } = this.props;
     onPageLoad();
-    if (profile.setProfile === false) {
-      notification.info({
-        message: 'Vet profiles are loading......',
-        description: profile.response,
-        duration: 6,
-        placement: 'topLeft',
-      });
-    }
   }
 
   onApprov(e, data) {
@@ -70,13 +62,6 @@ class AdminProfile extends Component {
       user.isLogged === undefined
       || user.isLogged === false
     ) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: user.response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
       history.push('/auth');
     }
 
@@ -158,15 +143,20 @@ AdminProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.shape({
-      first_name: PropTypes.string,
-      second_name: PropTypes.string,
-      tel_number: PropTypes.string,
-      location: PropTypes.string,
-      approved_status: PropTypes.string,
-      vet_number: PropTypes.string,
+    profile: PropTypes.arrayOf(
+      PropTypes.objectOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          first_name: PropTypes.string,
+          second_name: PropTypes.string,
+          tel_number: PropTypes.string,
+          location: PropTypes.string,
+          approved_status: PropTypes.string,
+          vet_number: PropTypes.string,
 
-    }),
+        }),
+      ),
+    ),
   }),
   onPageLoad: PropTypes.func,
   updateApprov: PropTypes.func,
@@ -188,7 +178,7 @@ AdminProfile.defaultProps = {
   }),
   onPageLoad: () => {},
   updateApprov: () => {},
-  history: '/auth',
+  history: {},
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: '',
