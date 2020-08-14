@@ -21,6 +21,8 @@
   },
   "ignorePatterns": [
     "dist/",
-    "build/"
+    "build/",
+    "config/",
+    "scripts/"
   ]
 }
