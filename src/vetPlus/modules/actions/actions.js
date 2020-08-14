@@ -13,6 +13,7 @@ import {
   GET_BOOKING_SUCCESS,
   GET_BOOKING_ERROR,
 } from './actionTypes';
+export const BASE_URL = 'https://mighty-badlands-24775.herokuapp.com';
 
 export const GetBookSuccess = profileObj => ({
   type: GET_BOOKING_SUCCESS,
@@ -77,4 +78,4 @@ export const logoutUserSuccess = userObj => ({
   payload: userObj,
 });
 
-export const BASE_URL = 'https://mighty-badlands-24775.herokuapp.com';
+

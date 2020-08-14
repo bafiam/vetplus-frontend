@@ -121,6 +121,14 @@ Start the server and use the app
 your@pc:~$ yarn start
 ```
 
+The system is connected to the [online backend version](https://github.com/bafiam/vetplus-backend). To run it locally and use a local version of the backend with a local version of the front end, you need to do some changes to the modeles folder, action.js file.
+  ```
+  - Replace 
+  export const BASE_URL = 'https://mighty-badlands-24775.herokuapp.com';
+  - with
+   export const BASE_URL = 'http://localhost:3000';
+  ```
+
 ## Live Version
 
 This is the link to the live preview. Feel free to visit.<br>
