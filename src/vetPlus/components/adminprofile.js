@@ -170,7 +170,7 @@ AdminProfile.propTypes = {
   }),
   onPageLoad: PropTypes.func,
   updateApprov: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: PropTypes.string,

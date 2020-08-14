@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -15,9 +15,7 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(ReduxThu
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <StrictMode>
-        <App />
-      </StrictMode>
+      <App />
     </Router>
   </Provider>,
   document.getElementById('root'),

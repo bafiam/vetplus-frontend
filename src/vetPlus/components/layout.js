@@ -194,7 +194,7 @@ PageLayout.propTypes = {
 
   goodByeUser: PropTypes.func,
   onPageUser: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: PropTypes.bool,
     isUser: PropTypes.bool,
@@ -207,7 +207,7 @@ PageLayout.defaultProps = {
 
   onPageUser: () => {},
   goodByeUser: () => {},
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: false,
     response: '',

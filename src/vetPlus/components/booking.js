@@ -353,7 +353,7 @@ Booking.propTypes = {
   }),
   onPageLoad: PropTypes.func,
   addBooking: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: PropTypes.bool,
     response: PropTypes.string,

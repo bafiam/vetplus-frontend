@@ -16,26 +16,19 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const {
-      onPageLoad,
-    } = this.props;
-
     setTimeout(() => {
+      const { onPageLoad } = this.props;
       onPageLoad();
     }, 2500);
   }
 
   onFinish(values) {
-    const {
-      onloginUser,
-    } = this.props;
+    const { onloginUser } = this.props;
     onloginUser(values);
   }
 
   render() {
-    const {
-      user, history,
-    } = this.props;
+    const { user, history } = this.props;
     if (user.isLogged !== undefined) {
       if (user.isLogged === true) {
         notification.success({
@@ -58,7 +51,6 @@ class Login extends Component {
 
     return (
       <Card className="right-div-card" title="Login" type="inner">
-
         <Form
           name="normal_login"
           className="login-form"
@@ -100,7 +92,6 @@ class Login extends Component {
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
             </Form.Item>
-
           </Form.Item>
 
           <Form.Item>
@@ -114,7 +105,6 @@ class Login extends Component {
           </Form.Item>
         </Form>
       </Card>
-
     );
   }
 }
@@ -131,26 +121,24 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 Login.propTypes = {
-
   onloginUser: PropTypes.func,
   onPageLoad: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: PropTypes.bool,
     isUser: PropTypes.bool,
     isAdmin: PropTypes.bool,
     isVet: PropTypes.bool,
-    response: PropTypes.string,
-    currentUser: PropTypes.shape({
-      username: PropTypes.string,
-    }),
+    // eslint-disable-next-line react/forbid-prop-types
+    response: PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    currentUser: PropTypes.any,
   }),
 };
 Login.defaultProps = {
-
   onloginUser: () => {},
   onPageLoad: () => {},
-  history: '',
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: false,
     response: '',

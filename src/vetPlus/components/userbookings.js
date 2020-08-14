@@ -135,7 +135,7 @@ UserBooking.propTypes = {
   }),
 
   onPageLoad: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: PropTypes.bool,
     response: PropTypes.string,
@@ -164,7 +164,7 @@ UserBooking.defaultProps = {
   }),
 
   onPageLoad: () => {},
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: false,
     response: '',

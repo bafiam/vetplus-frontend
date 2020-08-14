@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import {
-  Card, Form, Input, Tooltip, Button, Cascader, notification,
+  Card,
+  Form,
+  Input,
+  Tooltip,
+  Button,
+  Cascader,
+  notification,
 } from 'antd';
 import '../../css/auth.css';
 
@@ -62,48 +68,37 @@ class Signup extends Component {
   }
 
   componentDidMount() {
-    const {
-      onPageLoad,
-    } = this.props;
     const getToken = localStorage.getItem('vet_token');
-    setTimeout(() => {
-      onPageLoad(getToken);
-    }, 2500);
+    if (getToken && Object.keys(getToken).length > 0) {
+      setTimeout(() => {
+        const { onPageLoad } = this.props;
+        onPageLoad(getToken);
+      }, 2500);
+    }
   }
 
   onFinish(values) {
-    const {
-      onsignupUser,
-    } = this.props;
+    const { onsignupUser } = this.props;
     onsignupUser(values);
   }
 
   render() {
-    const {
-      user, history,
-    } = this.props;
-    if (
-      user.isLogged !== undefined
-      && user.isLogged === true
-    ) {
+    const { user, history } = this.props;
+    if (user.isLogged !== undefined && user.isLogged === true) {
       notification.success({
         message: `welcome ${user.currentUser.username}`,
         description: user.response,
-        duration: 15,
+        duration: 5,
         placement: 'topRight',
       });
       history.push('/home/dash');
     }
-    if (
-      user.isLogged === undefined
-      || user.isLogged === false
-    ) {
-      if ([user.response].length > 1) {
+    if (user.isLogged === undefined || user.isLogged === false) {
+      if (Array.isArray(user.response)) {
         [...user.response].forEach(element => {
           notification.warning({
-            message: 'Registration failed',
+            message: 'Registration failed nn',
             description: element,
-            duration: 5,
             placement: 'bottomRight',
           });
         });
@@ -111,7 +106,6 @@ class Signup extends Component {
         notification.warning({
           message: 'Registration failed',
           description: user.response,
-          duration: 5,
           placement: 'bottomRight',
         });
       }
@@ -120,7 +114,7 @@ class Signup extends Component {
       <div>
         <Card type="inner" className="right-div-card" title="Sign up">
           <Form
-          // eslint-disable-next-line react/jsx-props-no-spreading
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...formItemLayout}
             name="register"
             onFinish={this.onFinish}
@@ -164,18 +158,8 @@ class Signup extends Component {
                   required: true,
                   message: 'Please input your password!',
                 },
-                ({ getFieldValue }) => ({
-                  validator(rule, value) {
-                    if (!value || getFieldValue('password').length > 8) {
-                      // eslint-disable-next-line prefer-promise-reject-errors
-                      return Promise.resolve();
-                    }
-                    // eslint-disable-next-line prefer-promise-reject-errors
-                    return Promise.reject(
-                      'The password that you entered is too short!',
-                    );
-                  },
-                }),
+                { min: 8, message: 'password must be minimum 8 characters.' },
+
               ]}
               hasFeedback
             >
@@ -191,6 +175,7 @@ class Signup extends Component {
                   required: true,
                   message: 'Please confirm your password!',
                 },
+
                 ({ getFieldValue }) => ({
                   validator(rule, value) {
                     if (!value || getFieldValue('password') === value) {
@@ -228,7 +213,7 @@ class Signup extends Component {
               <Input />
             </Form.Item>
             <Form.Item
-            // eslint-disable-next-line react/jsx-props-no-spreading
+              // eslint-disable-next-line react/jsx-props-no-spreading
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit">
@@ -254,26 +239,24 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 Signup.propTypes = {
-
   onsignupUser: PropTypes.func,
   onPageLoad: PropTypes.func,
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: PropTypes.bool,
     isUser: PropTypes.bool,
     isAdmin: PropTypes.bool,
     isVet: PropTypes.bool,
-    response: PropTypes.string,
-    currentUser: PropTypes.shape({
-      username: PropTypes.string,
-    }),
+    // eslint-disable-next-line react/forbid-prop-types
+    response: PropTypes.any,
+    // eslint-disable-next-line react/forbid-prop-types
+    currentUser: PropTypes.any,
   }),
 };
 Signup.defaultProps = {
-
   onsignupUser: () => {},
   onPageLoad: () => {},
-  history: PropTypes.string,
+  history: PropTypes.objectOf(PropTypes.any),
   user: PropTypes.shape({
     isLogged: false,
     response: '',
