@@ -3,75 +3,75 @@ import {
   VET_ERROR,
   BOOKING_SUCCESS,
   BOOKING_ERROR,
-} from "../../actions/actionTypes";
-import allVets from "../bookingReducer";
+} from '../../actions/actionTypes';
+import allVets from '../bookingReducer';
 
-describe("User Booking Reducer", () => {
+describe('User Booking Reducer', () => {
   const mydata = {
-    messages: "test data",
+    messages: 'test data',
     profile: {
       profile: {
         id: 1,
-        location: "nyeri",
+        location: 'nyeri',
       },
     },
   };
-  const err_data = { errors: "error test data" };
+  const errData = { errors: 'error test data' };
 
-  it("should return the initial state", () => {
+  it('should return the initial state', () => {
     expect(allVets(undefined, {})).toEqual({
       vets: [],
-      response: "",
+      response: '',
       setProfile: false,
       bookingSaved: false,
-      new_response: "",
+      new_response: '',
     });
   });
-  it("should handle VET_SUCCESS", () => {
+  it('should handle VET_SUCCESS', () => {
     const startAction = {
       type: VET_SUCCESS,
       payload: mydata,
     };
-    expect(allVets({},startAction)).toEqual({
+    expect(allVets({}, startAction)).toEqual({
       vets: {
         profile: {
           id: 1,
-          location: "nyeri",
+          location: 'nyeri',
         },
       },
-      response: "test data",
+      response: 'test data',
       setProfile: true,
     });
   });
-  it("should handle VET_ERROR", () => {
+  it('should handle VET_ERROR', () => {
     const startAction = {
       type: VET_ERROR,
-      payload: err_data,
+      payload: errData,
     };
-    expect(allVets({},startAction)).toEqual({
+    expect(allVets({}, startAction)).toEqual({
       vets: [],
-      response: "error test data",
+      response: 'error test data',
       setProfile: false,
     });
   });
-  it("should handle BOOKING_SUCCESS", () => {
+  it('should handle BOOKING_SUCCESS', () => {
     const startAction = {
       type: BOOKING_SUCCESS,
       payload: mydata,
     };
-    expect(allVets({},startAction)).toEqual({
-      new_response: "test data",
+    expect(allVets({}, startAction)).toEqual({
+      new_response: 'test data',
       bookingSaved: true,
     });
   });
-  it("should handle BOOKING_ERROR", () => {
+  it('should handle BOOKING_ERROR', () => {
     const startAction = {
       type: BOOKING_ERROR,
-      payload: err_data,
+      payload: errData,
     };
-    expect(allVets({},startAction)).toEqual({
+    expect(allVets({}, startAction)).toEqual({
 
-      new_response: "error test data",
+      new_response: 'error test data',
       bookingSaved: false,
     });
   });
