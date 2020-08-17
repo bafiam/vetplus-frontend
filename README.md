@@ -46,7 +46,7 @@ Feature summary :
 - View booked appoitment request by the vet.
 - Book an appoitment interface available only by patients
 
-Detailed project description can be found here [Back end](https://github.com/bafiam/vetplus-backend)
+Detailed project description can be found here [Back end](https://github.com/bafiam/vetplus-backend). The system responsiveness in different screen start from 567 px going up.
 
 ## Helpers
 
@@ -123,6 +123,12 @@ Get the dependencies needed for the app
 
 ```Shell
 your@pc:~$ yarn install
+```
+
+Run the test
+
+```Shell
+your@pc:~$ yarn test
 ```
 
 Start the server and use the app
