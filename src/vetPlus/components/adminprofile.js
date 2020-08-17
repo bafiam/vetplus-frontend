@@ -144,18 +144,16 @@ AdminProfile.propTypes = {
       username: PropTypes.string,
     }),
     profile: PropTypes.arrayOf(
-      PropTypes.objectOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          first_name: PropTypes.string,
-          second_name: PropTypes.string,
-          tel_number: PropTypes.string,
-          location: PropTypes.string,
-          approved_status: PropTypes.string,
-          vet_number: PropTypes.string,
+      PropTypes.shape({
+        id: PropTypes.number,
+        first_name: PropTypes.string,
+        second_name: PropTypes.string,
+        tel_number: PropTypes.string,
+        location: PropTypes.string,
+        approved_status: PropTypes.string,
+        vet_number: PropTypes.string,
 
-        }),
-      ),
+      }),
     ),
   }),
   onPageLoad: PropTypes.func,

@@ -125,7 +125,8 @@ VetBooking.propTypes = {
         location: PropTypes.string,
       }),
     }),
-    response: PropTypes.string,
+    // eslint-disable-next-line react/forbid-prop-types
+    response: PropTypes.any.isRequired,
     loading: PropTypes.bool,
 
   }),

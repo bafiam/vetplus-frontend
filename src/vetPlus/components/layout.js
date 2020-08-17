@@ -29,7 +29,7 @@ class PageLayout extends Component {
     super(props);
 
     this.state = {
-      collapsed: false,
+      collapsed: true,
 
     };
     this.onClick = this.onClick.bind(this);
@@ -55,7 +55,7 @@ class PageLayout extends Component {
       notification.success({
         message: 'Good bye',
         description: user.response,
-        duration: 10,
+        duration: 4,
         placement: 'bottomRight',
       });
     });

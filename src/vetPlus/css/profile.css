@@ -17,3 +17,9 @@
 .edit-div {
   margin: 5px;
 }
+
+@media (max-width: 768px) {
+  .site-card-border-less-wrapper {
+    flex-direction: column !important;
+  }
+}

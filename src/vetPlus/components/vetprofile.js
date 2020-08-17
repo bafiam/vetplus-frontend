@@ -119,8 +119,9 @@ VetProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.shape(
-      PropTypes.objectOf({
+    profile: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
         first_name: PropTypes.string,
         second_name: PropTypes.string,
         tel_number: PropTypes.string,
