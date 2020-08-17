@@ -131,7 +131,7 @@ Start the server and use the app
 your@pc:~$ yarn start
 ```
 
-The system is connected to the [online backend version](https://github.com/bafiam/vetplus-backend). To run it locally and use a local version of the backend with a local version of the front end, you need to do some changes to the modeles folder, action.js file.
+The system is connected to the [online backend version](https://github.com/bafiam/vetplus-backend). To run it locally and use a local version of the backend with a local version of the front end, you need to do some changes to the modules folder, action.js file.
 
 ```
 - Replace
