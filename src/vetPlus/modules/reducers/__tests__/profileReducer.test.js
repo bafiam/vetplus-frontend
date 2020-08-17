@@ -11,6 +11,10 @@ describe('User Booking Reducer', () => {
       },
     },
   };
+  const data = {
+    messages: 'test data',
+    profile: [],
+  };
   const errData = { errors: 'error test data' };
 
   it('should return the initial state', () => {
@@ -21,7 +25,7 @@ describe('User Booking Reducer', () => {
       saveProfile: false,
     });
   });
-  it('should handle PROFILE_SUCCESS', () => {
+  it('should handle PROFILE_SUCCESS with profile to display', () => {
     const startAction = {
       type: PROFILE_SUCCESS,
       payload: mydata,
@@ -33,6 +37,18 @@ describe('User Booking Reducer', () => {
           location: 'nyeri',
         },
       },
+      response: 'test data',
+      setProfile: true,
+      saveProfile: true,
+    });
+  });
+  it('should handle PROFILE_SUCCESS no profile to display', () => {
+    const startAction = {
+      type: PROFILE_SUCCESS,
+      payload: data,
+    };
+    expect(allProfile({}, startAction)).toEqual({
+      profile: [],
       response: 'test data',
       setProfile: true,
       saveProfile: true,

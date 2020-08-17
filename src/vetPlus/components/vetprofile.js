@@ -26,15 +26,17 @@ class VetProfile extends Component {
     const isEmpty = 'N/A';
     let accStatus;
     const { profile, user, history } = this.props;
-    if (profile.profile.approved_status === 'Yes') {
-      accStatus = <Tag color="success">Approved</Tag>;
-    }
-    if (profile.profile.approved_status === 'No') {
-      accStatus = (
-        <Tag icon={<SyncOutlined spin />} color="processing">
-          processing
-        </Tag>
-      );
+    if (profile.profile.approved_status !== undefined) {
+      if (profile.profile.approved_status === 'Yes') {
+        accStatus = <Tag color="success">Approved</Tag>;
+      }
+      if (profile.profile.approved_status === 'No') {
+        accStatus = (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            processing
+          </Tag>
+        );
+      }
     }
 
     if (profile.setProfile === true) {
@@ -117,15 +119,16 @@ VetProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.shape(PropTypes.objectOf({
-      first_name: PropTypes.string,
-      second_name: PropTypes.string,
-      tel_number: PropTypes.string,
-      location: PropTypes.string,
-      approved_status: PropTypes.string,
-      vet_number: PropTypes.string,
-
-    })),
+    profile: PropTypes.shape(
+      PropTypes.objectOf({
+        first_name: PropTypes.string,
+        second_name: PropTypes.string,
+        tel_number: PropTypes.string,
+        location: PropTypes.string,
+        approved_status: PropTypes.string,
+        vet_number: PropTypes.string,
+      }),
+    ),
   }),
   onPageLoad: PropTypes.func,
   history: PropTypes.func,
@@ -136,7 +139,6 @@ VetProfile.propTypes = {
     }),
     isLogged: PropTypes.bool,
     response: PropTypes.string,
-
   }),
 };
 VetProfile.defaultProps = {
@@ -153,7 +155,6 @@ VetProfile.defaultProps = {
     }),
     isLogged: false,
     response: '',
-
   }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VetProfile);

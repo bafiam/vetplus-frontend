@@ -1,7 +1,4 @@
-import {
-  PROFILE_SUCCESS,
-  PROFILE_ERROR,
-} from '../actions/actionTypes';
+import { PROFILE_SUCCESS, PROFILE_ERROR } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   profile: [],
@@ -9,13 +6,19 @@ const INITIAL_STATE = {
   setProfile: false,
   saveProfile: false,
 };
+const checker = data => {
+  if (data === undefined || data.length === 0) {
+    return [];
+  }
+  return data;
+};
 
 const allProfile = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PROFILE_SUCCESS:
       return {
         ...state,
-        profile: action.payload.profile,
+        profile: checker(action.payload.profile),
         response: action.payload.messages,
         setProfile: true,
         saveProfile: true,
