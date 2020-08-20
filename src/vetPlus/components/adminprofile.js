@@ -30,6 +30,26 @@ class AdminProfile extends Component {
     onPageLoad();
   }
 
+  componentDidUpdate() {
+    const {
+      profile, user, history,
+    } = this.props;
+    if (profile.setProfile === true) {
+      notification.success({
+        message: 'Vet profiles loaded.',
+        description: profile.response,
+        duration: 6,
+        placement: 'topLeft',
+      });
+    }
+    if (
+      user.isLogged === undefined
+      || user.isLogged === false
+    ) {
+      history.push('/auth');
+    }
+  }
+
   onApprov(e, data) {
     const {
       onPageLoad, profile, updateApprov,
@@ -48,22 +68,8 @@ class AdminProfile extends Component {
 
   render() {
     const {
-      profile, user, history,
+      profile,
     } = this.props;
-    if (profile.setProfile === true) {
-      notification.success({
-        message: 'Vet profiles loaded.',
-        description: profile.response,
-        duration: 6,
-        placement: 'topLeft',
-      });
-    }
-    if (
-      user.isLogged === undefined
-      || user.isLogged === false
-    ) {
-      history.push('/auth');
-    }
 
     return (
       <div>
