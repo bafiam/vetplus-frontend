@@ -22,22 +22,8 @@ class VetProfile extends Component {
     }
   }
 
-  render() {
-    const isEmpty = 'N/A';
-    let accStatus;
+  componentDidUpdate() {
     const { profile, user, history } = this.props;
-    if (profile.profile.approved_status !== undefined) {
-      if (profile.profile.approved_status === 'Yes') {
-        accStatus = <Tag color="success">Approved</Tag>;
-      }
-      if (profile.profile.approved_status === 'No') {
-        accStatus = (
-          <Tag icon={<SyncOutlined spin />} color="processing">
-            processing
-          </Tag>
-        );
-      }
-    }
 
     if (profile.setProfile === true) {
       notification.success({
@@ -50,6 +36,24 @@ class VetProfile extends Component {
 
     if (user.isLogged === undefined || user.isLogged === false) {
       history.push('/auth');
+    }
+  }
+
+  render() {
+    let accStatus;
+    const isEmpty = 'N/A';
+    const { profile, user } = this.props;
+    if (profile.profile.approved_status !== undefined) {
+      if (profile.profile.approved_status === 'Yes') {
+        accStatus = <Tag color="success">Approved</Tag>;
+      }
+      if (profile.profile.approved_status === 'No') {
+        accStatus = (
+          <Tag icon={<SyncOutlined spin />} color="processing">
+            processing
+          </Tag>
+        );
+      }
     }
 
     return (
@@ -119,28 +123,21 @@ VetProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        first_name: PropTypes.string,
-        second_name: PropTypes.string,
-        tel_number: PropTypes.string,
-        location: PropTypes.string,
-        approved_status: PropTypes.string,
-        vet_number: PropTypes.string,
-      }),
-    ),
+    profile: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
+    ])),
   }),
   onPageLoad: PropTypes.func,
   history: PropTypes.func,
-  user: PropTypes.shape({
-    currentUser: PropTypes.shape({
-      username: PropTypes.string,
-      user_type: PropTypes.string,
-    }),
-    isLogged: PropTypes.bool,
-    response: PropTypes.string,
-  }),
+  user: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
+
+  ])),
 };
 VetProfile.defaultProps = {
   profile: PropTypes.shape({
@@ -149,13 +146,10 @@ VetProfile.defaultProps = {
   }),
   onPageLoad: () => {},
   history: PropTypes.func,
-  user: PropTypes.shape({
-    currentUser: PropTypes.shape({
-      username: '',
-      user_type: '',
-    }),
+  user: PropTypes.objectOf({
     isLogged: false,
-    response: '',
+    response: [],
+    currentUser: [],
   }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(VetProfile);
