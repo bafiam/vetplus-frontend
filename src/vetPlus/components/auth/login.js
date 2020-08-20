@@ -22,12 +22,7 @@ class Login extends Component {
     }, 2500);
   }
 
-  onFinish(values) {
-    const { onloginUser } = this.props;
-    onloginUser(values);
-  }
-
-  render() {
+  componentDidUpdate() {
     const { user, history } = this.props;
     if (user.isLogged !== undefined) {
       if (user.isLogged === true) {
@@ -46,7 +41,14 @@ class Login extends Component {
         });
       }
     }
+  }
 
+  onFinish(values) {
+    const { onloginUser } = this.props;
+    onloginUser(values);
+  }
+
+  render() {
     return (
       <Card className="right-div-card" title="Login" type="inner">
         <Form

@@ -46,6 +46,25 @@ class PageLayout extends Component {
     }, 2500);
   }
 
+  componentDidUpdate() {
+    const {
+      user, history,
+    } = this.props;
+    if (
+      user.isLogged === undefined
+      || user.isLogged === false
+    ) {
+      notification.warning({
+        message:
+          'System resume failed, if it doesnt resume in a few, try to login again',
+        description: user.response,
+        duration: 20,
+        placement: 'bottomRight',
+      });
+      history.push('/auth');
+    }
+  }
+
   onClick() {
     const {
       goodByeUser, user, history,
@@ -69,21 +88,9 @@ class PageLayout extends Component {
 
   render() {
     const {
-      user, history,
+      user,
     } = this.props;
-    if (
-      user.isLogged === undefined
-      || user.isLogged === false
-    ) {
-      notification.warning({
-        message:
-          'System resume failed, if it doesnt resume in a few, try to login again',
-        description: user.response,
-        duration: 20,
-        placement: 'bottomRight',
-      });
-      history.push('/auth');
-    }
+
     let userBook;
     let myAppointments;
 

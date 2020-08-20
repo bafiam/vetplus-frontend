@@ -24,10 +24,6 @@ const residences = [
     value: 'vet',
     label: 'vet',
   },
-  // {
-  //   value: 'admin',
-  //   label: 'admin',
-  // },
 ];
 const formItemLayout = {
   labelCol: {
@@ -77,12 +73,7 @@ class Signup extends Component {
     }
   }
 
-  onFinish(values) {
-    const { onsignupUser } = this.props;
-    onsignupUser(values);
-  }
-
-  render() {
+  componentDidUpdate() {
     const { user, history } = this.props;
     if (user.isLogged !== undefined && user.isLogged === true) {
       notification.success({
@@ -110,6 +101,14 @@ class Signup extends Component {
         });
       }
     }
+  }
+
+  onFinish(values) {
+    const { onsignupUser } = this.props;
+    onsignupUser(values);
+  }
+
+  render() {
     return (
       <div>
         <Card type="inner" className="right-div-card" title="Sign up">
