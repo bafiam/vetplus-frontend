@@ -1,14 +1,14 @@
 import { PROFILE_SUCCESS, PROFILE_ERROR } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  profile: [],
+  profile: {},
   response: '',
   setProfile: false,
   saveProfile: false,
 };
 const checker = data => {
   if (data === undefined || data.length === 0) {
-    return [];
+    return {};
   }
   return data;
 };
@@ -26,7 +26,7 @@ const allProfile = (state = INITIAL_STATE, action) => {
     case PROFILE_ERROR:
       return {
         ...state,
-        profile: [],
+        profile: {},
         response: action.payload.errors,
         setProfile: false,
         saveProfile: false,

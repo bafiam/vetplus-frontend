@@ -9,8 +9,12 @@ import { getBookings } from '../modules/reducers/myBookingEffect';
 
 class UserBooking extends Component {
   componentDidMount() {
-    const { bookings, onPageLoad } = this.props;
+    const { onPageLoad } = this.props;
     onPageLoad();
+  }
+
+  componentDidUpdate() {
+    const { bookings } = this.props;
     if (bookings.loading === false) {
       message.warning('Fetching Appointments');
     }
@@ -106,51 +110,27 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 UserBooking.propTypes = {
-  bookings: PropTypes.shape({
-    Appointments: PropTypes.shape({
-      date: PropTypes.string,
-      length: PropTypes.func,
-      booking_type: PropTypes.string,
-      profile: PropTypes.shape({
-        first_name: PropTypes.string,
-      }),
-      vet: PropTypes.shape({
-        first_name: PropTypes.string,
-        second_name: PropTypes.string,
-        tel_number: PropTypes.string,
-        vet_number: PropTypes.string,
-        location: PropTypes.string,
-      }),
-    }),
-    response: PropTypes.string,
-    loading: PropTypes.bool,
+  bookings: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.array,
+    PropTypes.bool,
 
-  }),
+  ])),
 
   onPageLoad: PropTypes.func,
   history: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.shape({
-    isLogged: PropTypes.bool,
-    response: PropTypes.string,
-  }),
+  user: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
+
+  ])),
 };
 UserBooking.defaultProps = {
-  bookings: PropTypes.shape({
-    Appointments: PropTypes.shape({
-      date: '',
-      length: () => {},
-      booking_type: '',
-      profile: PropTypes.shape({
-        first_name: '',
-      }),
-      vet: PropTypes.shape({
-        first_name: '',
-        second_name: '',
-        tel_number: '',
-        vet_number: '',
-        location: '',
-      }),
-    }),
+  bookings: PropTypes.objectOf({
+    Appointments: [],
     response: '',
     loading: false,
 
@@ -158,9 +138,10 @@ UserBooking.defaultProps = {
 
   onPageLoad: () => {},
   history: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.shape({
+  user: PropTypes.objectOf({
     isLogged: false,
     response: '',
+    currentUser: [],
   }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(UserBooking);

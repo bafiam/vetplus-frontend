@@ -24,11 +24,10 @@ class UserProfile extends Component {
     }
   }
 
-  render() {
+  componentDidUpdate() {
     const {
       profile, user, history,
     } = this.props;
-    const isEmpty = 'N/A';
     if (profile.setProfile === true) {
       notification.success({
         message: `Your profile is ready ${user.currentUser.username}`,
@@ -43,6 +42,13 @@ class UserProfile extends Component {
     ) {
       history.push('/auth');
     }
+  }
+
+  render() {
+    const {
+      profile, user,
+    } = this.props;
+    const isEmpty = 'N/A';
 
     return (
       <div>
@@ -103,16 +109,14 @@ UserProfile.propTypes = {
     user: PropTypes.shape({
       username: PropTypes.string,
     }),
-    profile: PropTypes.shape({
-      first_name: PropTypes.string,
-      second_name: PropTypes.string,
-      tel_number: PropTypes.string,
-      location: PropTypes.string,
-
-    }),
+    profile: PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
+    ])),
   }),
   onPageLoad: PropTypes.func,
-  history: PropTypes.objectOf(PropTypes.any),
+  history: PropTypes.func,
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: PropTypes.string,
@@ -129,7 +133,7 @@ UserProfile.defaultProps = {
     response: '',
   }),
   onPageLoad: () => {},
-  history: '/auth',
+  history: PropTypes.func,
   user: PropTypes.shape({
     currentUser: PropTypes.shape({
       username: '',

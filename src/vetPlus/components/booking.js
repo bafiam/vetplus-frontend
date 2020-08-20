@@ -88,6 +88,33 @@ class Booking extends Component {
     onPageLoad();
   }
 
+  componentDidUpdate() {
+    const { triggered } = this.state;
+    const {
+      vet, user, history,
+    } = this.props;
+
+    if (user.isLogged === undefined || user.isLogged === false) {
+      history.push('/auth');
+    }
+    if (triggered === true && vet.bookingSaved === true) {
+      notification.success({
+        message: 'Add a Booking',
+        description: vet.new_response,
+        duration: 10,
+        placement: 'bottomRight',
+      });
+    }
+    if (triggered === true && vet.bookingSaved === false) {
+      notification.warning({
+        message: 'Error adding Booking',
+        description: vet.new_response,
+        duration: 10,
+        placement: 'bottomRight',
+      });
+    }
+  }
+
   onCancel() {
     this.setVisible(false);
     this.formRef.current.resetFields();
@@ -138,30 +165,10 @@ class Booking extends Component {
   }
 
   render() {
-    const { visible, mydata, triggered } = this.state;
+    const { visible, mydata } = this.state;
     const {
-      vet, user, history,
+      vet,
     } = this.props;
-
-    if (user.isLogged === undefined || user.isLogged === false) {
-      history.push('/auth');
-    }
-    if (triggered === true && vet.bookingSaved === true) {
-      notification.success({
-        message: 'Add a Booking',
-        description: vet.new_response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
-    }
-    if (triggered === true && vet.bookingSaved === false) {
-      notification.warning({
-        message: 'Error adding Booking',
-        description: vet.new_response,
-        duration: 10,
-        placement: 'bottomRight',
-      });
-    }
 
     return (
       <div>
@@ -321,16 +328,12 @@ Booking.propTypes = {
 
   }),
   vet: PropTypes.shape({
-    vets: PropTypes.shape({
-      first_name: PropTypes.string,
-      second_name: PropTypes.string,
-      tel_number: PropTypes.string,
-      location: PropTypes.string,
-      approved_status: PropTypes.string,
-      vet_number: PropTypes.string,
-      filter: PropTypes.func,
+    vets: PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object,
 
-    }),
+    ])),
     response: PropTypes.string,
     new_response: PropTypes.string,
     bookingSaved: PropTypes.bool,
@@ -372,7 +375,7 @@ Booking.defaultProps = {
       user_type: '',
     }),
     isLogged: false,
-    response: '',
+    response: [],
 
   }),
 
