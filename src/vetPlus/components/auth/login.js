@@ -124,24 +124,22 @@ Login.propTypes = {
   onloginUser: PropTypes.func,
   onPageLoad: PropTypes.func,
   history: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.shape({
-    isLogged: PropTypes.bool,
-    isUser: PropTypes.bool,
-    isAdmin: PropTypes.bool,
-    isVet: PropTypes.bool,
-    // eslint-disable-next-line react/forbid-prop-types
-    response: PropTypes.any,
-    // eslint-disable-next-line react/forbid-prop-types
-    currentUser: PropTypes.any,
-  }),
+  user: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
+
+  ])),
 };
 Login.defaultProps = {
   onloginUser: () => {},
   onPageLoad: () => {},
   history: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.shape({
+  user: PropTypes.objectOf({
     isLogged: false,
     response: '',
+    currentUser: [],
   }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
