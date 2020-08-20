@@ -13,13 +13,13 @@ describe('User Booking Reducer', () => {
   };
   const data = {
     messages: 'test data',
-    profile: [],
+    profile: {},
   };
   const errData = { errors: 'error test data' };
 
   it('should return the initial state', () => {
     expect(allProfile(undefined, {})).toEqual({
-      profile: [],
+      profile: {},
       response: '',
       setProfile: false,
       saveProfile: false,
@@ -48,7 +48,7 @@ describe('User Booking Reducer', () => {
       payload: data,
     };
     expect(allProfile({}, startAction)).toEqual({
-      profile: [],
+      profile: {},
       response: 'test data',
       setProfile: true,
       saveProfile: true,
@@ -60,7 +60,7 @@ describe('User Booking Reducer', () => {
       payload: errData,
     };
     expect(allProfile({}, startAction)).toEqual({
-      profile: [],
+      profile: {},
       response: 'error test data',
       setProfile: false,
       saveProfile: false,
