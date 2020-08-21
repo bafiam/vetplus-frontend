@@ -70,6 +70,61 @@ class AdminProfile extends Component {
     const {
       profile,
     } = this.props;
+    let myList;
+    if (Object.keys(profile.profile).length >= 1) {
+      myList = (
+        <List
+          className="demo-loadmore-list"
+          itemLayout="horizontal"
+          dataSource={profile.profile}
+          renderItem={item => (
+            <List.Item>
+              <Skeleton
+                avatar
+                title={false}
+                loading={item.loading}
+                active
+              >
+                <Descriptions layout="vertical">
+                  <Descriptions.Item label="First name">
+                    {item.first_name}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Second name">
+                    {item.second_name}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Location">
+                    {item.location}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Phone number">
+                    {item.tel_number}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Licence number">
+                    {item.vet_number}
+                  </Descriptions.Item>
+                  <Descriptions.Item label="Account status">
+                    {item.approved_status}
+                  </Descriptions.Item>
+                </Descriptions>
+              </Skeleton>
+              <Button
+                type="dashed"
+                danger
+                onClick={e => this.onApprov(e, item.id)}
+              >
+                Approve
+              </Button>
+            </List.Item>
+          )}
+        />
+      );
+    } else {
+      myList = (
+        <div>
+          {' '}
+          No new Vets for approval
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -77,49 +132,7 @@ class AdminProfile extends Component {
           <div className="site-card-border-less-wrapper">
             <div>
               <Card type="inner" title="Vets profile waiting approval">
-                <List
-                  className="demo-loadmore-list"
-                  itemLayout="horizontal"
-                  dataSource={profile.profile}
-                  renderItem={item => (
-                    <List.Item>
-                      <Skeleton
-                        avatar
-                        title={false}
-                        loading={item.loading}
-                        active
-                      >
-                        <Descriptions layout="vertical">
-                          <Descriptions.Item label="First name">
-                            {item.first_name}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Second name">
-                            {item.second_name}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Location">
-                            {item.location}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Phone number">
-                            {item.tel_number}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Licence number">
-                            {item.vet_number}
-                          </Descriptions.Item>
-                          <Descriptions.Item label="Account status">
-                            {item.approved_status}
-                          </Descriptions.Item>
-                        </Descriptions>
-                      </Skeleton>
-                      <Button
-                        type="dashed"
-                        danger
-                        onClick={e => this.onApprov(e, item.id)}
-                      >
-                        Approve
-                      </Button>
-                    </List.Item>
-                  )}
-                />
+                {myList}
               </Card>
             </div>
           </div>
@@ -143,37 +156,23 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 AdminProfile.propTypes = {
-  profile: PropTypes.shape({
-    setProfile: PropTypes.bool,
-    response: PropTypes.string,
-    user: PropTypes.shape({
-      username: PropTypes.string,
-    }),
-    profile: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        first_name: PropTypes.string,
-        second_name: PropTypes.string,
-        tel_number: PropTypes.string,
-        location: PropTypes.string,
-        approved_status: PropTypes.string,
-        vet_number: PropTypes.string,
-
-      }),
-    ),
-  }),
+  profile: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.object,
+    PropTypes.bool,
+    PropTypes.array,
+  ])),
   onPageLoad: PropTypes.func,
   updateApprov: PropTypes.func,
   history: PropTypes.objectOf(PropTypes.any),
-  user: PropTypes.shape({
-    currentUser: PropTypes.shape({
-      username: PropTypes.string,
-      user_type: PropTypes.string,
-    }),
-    isLogged: PropTypes.bool,
-    response: PropTypes.string,
+  user: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.object,
+    PropTypes.array,
 
-  }),
+  ])),
 };
 AdminProfile.defaultProps = {
   profile: PropTypes.shape({
@@ -183,14 +182,10 @@ AdminProfile.defaultProps = {
   onPageLoad: () => {},
   updateApprov: () => {},
   history: {},
-  user: PropTypes.shape({
-    currentUser: PropTypes.shape({
-      username: '',
-      user_type: '',
-    }),
+  user: PropTypes.objectOf({
     isLogged: false,
-    response: '',
-
+    response: [],
+    currentUser: [],
   }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AdminProfile);
