@@ -1,29 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { hot } from 'react-hot-loader';
-
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
+import PageLayout from './components/layout';
+import Auth from './components/auth/index';
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      number : 0
-    }
-  }
-  
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-         value is {this.state.number}
-        </p>
-        <button onClick={()=>this.setState({number : this.state.number + 1})}>+</button>
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div className="App">
+    <Switch>
+      <Route path="/home" component={PageLayout} />
+      <Route path="/auth" component={Auth} />
+      <Redirect to="/home/dash" />
+    </Switch>
+  </div>
+);
 
 export default hot(module)(App);

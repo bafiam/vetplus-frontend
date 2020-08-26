@@ -1,0 +1,25 @@
+.site-card-border-less-wrapper {
+  padding: 30px;
+  background: #ececec;
+  display: flex;
+  flex-direction: row;
+}
+
+.user-img {
+  margin-right: 15px;
+}
+
+.avatar-card {
+  width: 250px;
+  text-align: center;
+}
+
+.edit-div {
+  margin: 5px;
+}
+
+@media (max-width: 768px) {
+  .site-card-border-less-wrapper {
+    flex-direction: column !important;
+  }
+}
