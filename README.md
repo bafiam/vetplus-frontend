@@ -44,9 +44,9 @@ Feature summary :
 - Profile interface for both patients and vets.
 - View past and upcomming appointments by the patient.
 - View booked appoitment request by the vet.
-- Book an appoitment interface available only by patients
+- Book an appoitment interface available only by patients.
 
-Detailed project description can be found here [Back end](https://github.com/bafiam/vetplus-backend). The system responsiveness in different screen start from 567 px going up.
+Detailed project description can be found here [back end](https://github.com/bafiam/vetplus-backend). The system responsiveness in different screen start from 567 px going up.
 
 ## Helpers
 
@@ -57,29 +57,29 @@ Login as admin:
 
 Seeded vet
 
-- username:betty
+- username: betty
 - password: 123456789
 
 Seeded user
 
-- username:bafiamm
+- username: bafiamm
 - password: 123456789
 
 ## Screenshots
 
-#### Book an Appointment
+#### Book an appointment
 
 <img src="./screenshots/book-appo.png" alt="screenshot1"/>
 
-#### Vet Profile
+#### Vet profile
 
 <img src="./screenshots/create-profile.png" alt="screenshot1"/>
 
-#### Patient Appointments
+#### Patient appointments
 
 <img src="./screenshots/my-appointments.png" alt="screenshot1"/>
 
-#### Admin Account Approval
+#### Admin account approval
 
 <img src="./screenshots/admin.png" alt="screenshot1"/>
 
@@ -107,7 +107,7 @@ Seeded user
 
 Once you have installed the required package shown on the [Prerequisites Installations](#required-installations), proceed with the following steps
 
-Clone the Repository,
+Clone the Repository
 
 ```Shell
 your@pc:~$ git clone https://github.com/bafiam/vetplus-frontend
@@ -163,7 +163,7 @@ See the [open issues](https://github.com/bafiam/vetplus-frontend/issues) for a l
 
 Stephen Gumba
 
-- [Github profile](https://github.com/bafiam)
+- [GitHub profile](https://github.com/bafiam)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
